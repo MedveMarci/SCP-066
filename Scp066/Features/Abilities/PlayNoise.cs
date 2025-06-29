@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using CustomPlayerEffects;
 using Exiled.API.Features;
 using Exiled.CustomRoles.API.Features;
 using Exiled.Events.EventArgs.Player;
@@ -35,17 +36,17 @@ public class PlayNoise : Ability
     
     protected override void ActivateAbility(Player player, AudioPlayer audioPlayer)
     {
-        audioPlayer?.AddClip($"Beethoven");
-        //Timing.RunCoroutine(this.CheckEndOfPlayback(player, audioPlayer));
+        if (audioPlayer is null)
+            return;
+        
+        audioPlayer.AddClip($"Beethoven");
+        Timing.RunCoroutine(this.CheckEndOfPlayback(player, audioPlayer));
     }
     
     private IEnumerator<float> CheckEndOfPlayback(Player scp066, AudioPlayer audioPlayer)
     {
-        yield return Timing.WaitForSeconds(0.1f);
-        while (true)
+        while (audioPlayer.ClipsById.Count > 0)
         {
-            //Пока звук не прекратится
-            
             foreach (Player player in Player.List)
             {
                 if (player == scp066)
@@ -54,9 +55,9 @@ public class PlayNoise : Ability
                 if (player.IsScp)
                     continue;
                 
-                if (Vector3.Distance(scp066.Position, player.Position) < 10f)
+                if (Vector3.Distance(scp066.Position, player.Position) <= 5f)
                 {
-                    player.Health -= 10; //todo
+                    player.EnableEffect<CardiacArrest>(0.5f);
                 }
             }
             
