@@ -131,26 +131,26 @@ public class EventHandler
     /// </summary>
     private void OnPlayerHurting(HurtingEventArgs ev)
     {
-        if (_scp066role != null && !_scp066role.Check(ev.Player))
-            return;
-        
-        // Disable damage from car
-        if (ev.DamageHandler.Type == DamageType.Crushed && 
-            ev.Player.CurrentRoom.Type == RoomType.Surface)
+        if (_scp066role != null && _scp066role.Check(ev.Player))
         {
-            ev.IsAllowed = false;
-        }
+            // Disable damage from car
+            if (ev.DamageHandler.Type == DamageType.Crushed && 
+                ev.Player.CurrentRoom.Type == RoomType.Surface)
+            {
+                ev.IsAllowed = false;
+            }
         
-        // Disable damage from tesla
-        if (ev.DamageHandler.Type == DamageType.Tesla)
-        {
-            ev.IsAllowed = false;
-        }
+            // Disable damage from tesla
+            if (ev.DamageHandler.Type == DamageType.Tesla)
+            {
+                ev.IsAllowed = false;
+            }
         
-        // Increase damage from decontamination
-        if (ev.DamageHandler.Type == DamageType.Decontamination)
-        {
-            ev.Amount = 300;
+            // Increase damage from decontamination
+            if (ev.DamageHandler.Type == DamageType.Decontamination)
+            {
+                ev.Amount = 300;
+            }
         }
     }
     
