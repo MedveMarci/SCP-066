@@ -1,11 +1,15 @@
-﻿using Exiled.API.Features;
+﻿using System.Linq;
+using Exiled.API.Features;
 using Scp066.Features.Controller;
+using UnityEngine;
 
 namespace Scp066.Interfaces;
 public abstract class Ability : IAbility
 {
     public virtual string Name { get; }
     public virtual string Description { get; }
+    public virtual int KeyId { get; }
+    public virtual string KeyCode { get; }
     public virtual float Cooldown { get; }
     public virtual void Register() {}
     public virtual void Unregister() {}
@@ -19,12 +23,8 @@ public abstract class Ability : IAbility
         
         // Check current audio
         AudioPlayer audioPlayer = controller.GetCurrentAudioPlayer;
-        /*
-        if (audioPlayer is not null)
-        {
-            if (audioPlayer.TryGetClip(1, out AudioClipPlayback clip) && clip.Progress > 0) //has sound?
-                return;
-        }*/
+        if (audioPlayer is not null && audioPlayer.ClipsById.Any())
+            return;
         
         // Check cooldown for the ability
         CooldownController cooldown = player.GameObject.GetComponent<CooldownController>();

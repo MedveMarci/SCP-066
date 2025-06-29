@@ -10,9 +10,8 @@ public class CooldownController : MonoBehaviour
     /// <summary>
     /// Register features for the player
     /// </summary>
-    public void Init(AudioPlayer audioPlayer)
+    public void Awake()
     {
-        this._audioPlayer = audioPlayer;
         this._abilityCooldown = AbilityManager.GetAbilities.ToDictionary(a => a.Name, _ => 0f);
         InvokeRepeating(nameof(CheckCooldown), 0f, 1f);
         Log.Debug($"[CooldownController] Invoke the cooldown cycle");
@@ -28,11 +27,6 @@ public class CooldownController : MonoBehaviour
             if (this._abilityCooldown[key] > 0)
             {
                 this._abilityCooldown[key]--;
-            }
-            else if (this._abilityCooldown["Beethoven"] == 1)
-            {
-                int value = Random.Range(0, 3) + 1;
-                this._audioPlayer?.AddClip($"Eric{value}");
             }
             else
             {
@@ -56,5 +50,4 @@ public class CooldownController : MonoBehaviour
 
     // Fields
     private Dictionary<string, float> _abilityCooldown;
-    private AudioPlayer _audioPlayer;
 }

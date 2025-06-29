@@ -5,10 +5,12 @@ using Scp066.Interfaces;
 using UnityEngine;
 
 namespace Scp066.Features.Abilities;
-public class PlayNotes : Ability
+public class PlaySounds : Ability
 {
-    public override string Name => "Notes";
-    public override string Description => "Play back random creepy notes. Its safe for players, but the sounds are annoying";
+    public override string Name => "\ud83c\udfb5 Eric?";
+    public override string Description => "Play back random creepy notes and 'eric'";
+    public override int KeyId => 660;
+    public override string KeyCode => "Q";
     public override float Cooldown => 10f;
     public override void Register()
     {
@@ -31,8 +33,15 @@ public class PlayNotes : Ability
     
     protected override void ActivateAbility(Player player, AudioPlayer audioPlayer)
     {
-        int value = Random.Range(0, 6) + 1;
-        //todo add eric
-        audioPlayer?.AddClip($"Notes{value}");
+        int value = Random.Range(0, 4) + 1;
+        string clip = $"Eric{value}";
+
+        if (value == 4)
+        {
+            value = Random.Range(0, 6) + 1;
+            clip = $"Notes{value}";
+        }
+        
+        audioPlayer?.AddClip(clip);
     }
 }

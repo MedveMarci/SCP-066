@@ -7,10 +7,12 @@ using Scp066.Interfaces;
 using UnityEngine;
 
 namespace Scp066.Features.Abilities;
-public class PlayBeethoven : Ability
+public class PlayNoise : Ability
 {
-    public override string Name => "Beethoven";
+    public override string Name => "\ud83c\udfba Noise";
     public override string Description => "Plays Beethoven's Symphony No. 2, which kills players near SCP-066";
+    public override int KeyId => 661;
+    public override string KeyCode => "Alt";
     public override float Cooldown => 40f;
     public override void Register()
     {

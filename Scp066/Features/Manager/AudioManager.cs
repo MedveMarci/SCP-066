@@ -28,7 +28,7 @@ public static class AudioManager
             p.transform.parent = player.GameObject.transform;
 
             // This created speaker will be in 3D space.
-            Speaker speaker = p.AddSpeaker("scp066-speaker", volume, true, 5f, 15f);
+            Speaker speaker = p.AddSpeaker("scp066-speaker", volume, true, 5f, 25f);
         });
 
         LoadAudioFiles();

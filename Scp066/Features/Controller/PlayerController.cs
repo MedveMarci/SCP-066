@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviour
         _player = Player.Get(gameObject);
         Config config = Plugin.Singleton.Config;
         
+        HintManager.AddHint(this._player);            // Attach hintservice to player
         InvisibleManager.MakeInvisible(this._player); // Make player invisible for other players
         _schematicObject = SchematicManager.AddSchematicByName(config.SchematicName); // Create schematic
         _audioPlayer = AudioManager.AddAudioPlayer(this._player, config.Volume);      // Create audioPlayer
@@ -22,8 +23,7 @@ public class PlayerController : MonoBehaviour
 
         _movementController = gameObject.AddComponent<MovementController>();
         _movementController.Init(_schematicObject, speaker, config.SchematicOffset);
-        _cooldownController = gameObject.AddComponent<CooldownController>(); 
-        _cooldownController.Init(_audioPlayer);
+        _cooldownController = gameObject.AddComponent<CooldownController>();
         
         Log.Debug($"[PlayerController] Custom role granted for {this._player.Nickname}");
     }
@@ -36,6 +36,7 @@ public class PlayerController : MonoBehaviour
         Destroy(_movementController); // Destroy movement controller for schematic and audio
         Destroy(_cooldownController); // Destroy cooldown for abilities
 
+        HintManager.RemoveHint(this._player);           // Remove hint
         InvisibleManager.RemoveInvisible(this._player); // Remove invisible
         _audioPlayer.RemoveAllClips();                  // Remove all audio clips
         _audioPlayer.Destroy();                         // Remove a AudioPlayer

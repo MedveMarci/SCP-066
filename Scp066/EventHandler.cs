@@ -36,6 +36,7 @@ public class EventHandler
         Exiled.Events.Handlers.Scp330.InteractingScp330 += this.OnInteractingScp330;
         Exiled.Events.Handlers.Player.Verified += this.OnVerified;
         Exiled.Events.Handlers.Player.ChangingSpectatedPlayer += this.OnChangingSpectatedPlayer;
+        Exiled.Events.Handlers.Player.InteractingDoor += this.OnInteractionDoor;
     }
     
     ~EventHandler()
@@ -55,6 +56,7 @@ public class EventHandler
         Exiled.Events.Handlers.Scp330.InteractingScp330 -= this.OnInteractingScp330;
         Exiled.Events.Handlers.Player.Verified -= this.OnVerified;
         Exiled.Events.Handlers.Player.ChangingSpectatedPlayer -= this.OnChangingSpectatedPlayer;
+        Exiled.Events.Handlers.Player.InteractingDoor -= this.OnInteractionDoor;
     }
     
     /// <summary>
@@ -286,6 +288,20 @@ public class EventHandler
         if (_scp066role.Check(ev.OldTarget))
         {
             InvisibleManager.MakeInvisibleForPlayer(ev.OldTarget, ev.Player);
+        }
+    }
+
+    /// <summary>
+    /// Allow SCP-066 to open checkpoints as SCP
+    /// </summary>
+    private void OnInteractionDoor(InteractingDoorEventArgs ev)
+    {
+        if (_scp066role is null)
+            return;
+
+        if (ev.Door.Type == DoorType.CheckpointLczA || ev.Door.Type == DoorType.CheckpointLczB)
+        {
+            ev.Door.IsOpen = !ev.Door.IsOpen;
         }
     }
 }
