@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Exiled.API.Features;
+using Scp066.Features.Manager;
 using UnityEngine;
 
 namespace Scp066.Features.Controller;
@@ -9,10 +10,11 @@ public class CooldownController : MonoBehaviour
     /// <summary>
     /// Register features for the player
     /// </summary>
-    void Awake()
+    public void Init(AudioPlayer audioPlayer)
     {
-        //this._abilityCooldown = AbilityManager.GetAbilities.ToDictionary(a => a.Name, _ => 0f);
-        //InvokeRepeating(nameof(CheckCooldown), 0f, 1f);
+        this._audioPlayer = audioPlayer;
+        this._abilityCooldown = AbilityManager.GetAbilities.ToDictionary(a => a.Name, _ => 0f);
+        InvokeRepeating(nameof(CheckCooldown), 0f, 1f);
         Log.Debug($"[CooldownController] Invoke the cooldown cycle");
     }
     
@@ -27,6 +29,11 @@ public class CooldownController : MonoBehaviour
             {
                 this._abilityCooldown[key]--;
             }
+            else if (this._abilityCooldown["Beethoven"] == 1)
+            {
+                int value = Random.Range(0, 3) + 1;
+                this._audioPlayer?.AddClip($"Eric{value}");
+            }
             else
             {
                 this._abilityCooldown[key] = 0;
@@ -39,7 +46,7 @@ public class CooldownController : MonoBehaviour
     /// </summary>
     void OnDestroy()
     {
-        CancelInvoke(nameof(CheckCooldown));
+        this.CancelInvoke(nameof(CheckCooldown));
         Log.Debug($"[CooldownController] Cancel the cooldown cycle");
     }
     
@@ -49,4 +56,5 @@ public class CooldownController : MonoBehaviour
 
     // Fields
     private Dictionary<string, float> _abilityCooldown;
+    private AudioPlayer _audioPlayer;
 }

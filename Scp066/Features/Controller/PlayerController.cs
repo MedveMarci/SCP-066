@@ -22,7 +22,8 @@ public class PlayerController : MonoBehaviour
 
         _movementController = gameObject.AddComponent<MovementController>();
         _movementController.Init(_schematicObject, speaker, config.SchematicOffset);
-        _cooldownController = gameObject.AddComponent<CooldownController>();
+        _cooldownController = gameObject.AddComponent<CooldownController>(); 
+        _cooldownController.Init(_audioPlayer);
         
         Log.Debug($"[PlayerController] Custom role granted for {this._player.Nickname}");
     }

@@ -5,6 +5,7 @@ using HarmonyLib;
 using Exiled.API.Features;
 using Exiled.CustomRoles.API;
 using Scp066.Configs;
+using Scp066.Features.Manager;
 
 namespace Scp066;
 public class Plugin : Plugin<Config>
@@ -49,11 +50,16 @@ public class Plugin : Plugin<Config>
         this.CreatePluginDirectory(SchematicPath);
         this.CreatePluginDirectory(AudioPath);
         
+        // Register the abilities
+        AbilityManager.RegisterAbilities();
+        
         base.OnEnabled();
     }
 
     public override void OnDisabled()
     {
+        AbilityManager.UnregisterAbilities();
+        
         Config.Scp066RoleConfig.Unregister();
         _harmony.UnpatchAll();
 

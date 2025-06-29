@@ -19,11 +19,7 @@ public class MovementController : MonoBehaviour
     private void LateUpdate()
     {
         _schematicObject.transform.position = _player.GameObject.transform.position + _offset;
-        
-        Log.Error(_player.Velocity.ToString());
-        
         _schematicObject.transform.rotation = _schematicObject.transform.rotation;
-        
         _speaker.transform.position = _player.GameObject.transform.position;
     }
 

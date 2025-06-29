@@ -16,6 +16,7 @@ namespace Scp066;
 public class EventHandler
 {
     private readonly Plugin _plugin;
+    private Scp066Role _scp066role;
     public EventHandler(Plugin plugin)
     {
         _plugin = plugin;
@@ -35,8 +36,6 @@ public class EventHandler
         Exiled.Events.Handlers.Scp330.InteractingScp330 += this.OnInteractingScp330;
         Exiled.Events.Handlers.Player.Verified += this.OnVerified;
         Exiled.Events.Handlers.Player.ChangingSpectatedPlayer += this.OnChangingSpectatedPlayer;
-        Exiled.Events.Handlers.Player.TogglingNoClip += this.OnTogglingNoClip;
-        Exiled.Events.Handlers.Player.VoiceChatting += this.OnVoiceChatting;
     }
     
     ~EventHandler()
@@ -56,8 +55,6 @@ public class EventHandler
         Exiled.Events.Handlers.Scp330.InteractingScp330 -= this.OnInteractingScp330;
         Exiled.Events.Handlers.Player.Verified -= this.OnVerified;
         Exiled.Events.Handlers.Player.ChangingSpectatedPlayer -= this.OnChangingSpectatedPlayer;
-        Exiled.Events.Handlers.Player.TogglingNoClip -= this.OnTogglingNoClip;
-        Exiled.Events.Handlers.Player.VoiceChatting -= this.OnVoiceChatting;
     }
     
     /// <summary>
@@ -65,7 +62,12 @@ public class EventHandler
     /// </summary>
     private void OnRoundStarted()
     {
-        Scp066Role customRole = CustomRole.Get(typeof(Scp066Role)) as Scp066Role;
+        _scp066role = CustomRole.Get(typeof(Scp066Role)) as Scp066Role;
+        if (_scp066role is null)
+        {
+            Log.Error("Custom role SCP-066 role not found or not registered");
+            return;
+        }
 
         // Minimum and maximum number of Players for the chance of SCP-066 appearing
         float min = _plugin.Config.MinimumPlayers - 1;
@@ -78,10 +80,10 @@ public class EventHandler
         }
         
         // Add SCP-066 if no in the game
-        if (customRole!.TrackedPlayers.Count >= customRole.SpawnProperties.Limit)
+        if (_scp066role!.TrackedPlayers.Count >= _scp066role.SpawnProperties.Limit)
             return;
         
-        for (int i = 0; i < customRole.SpawnProperties.Limit; i++)
+        for (int i = 0; i < _scp066role.SpawnProperties.Limit; i++)
         {
             // List of people who could potentially become SCP-066
             var players = Player.List.Where(r => r.IsHuman && !r.IsNPC && r.CustomInfo == null).ToList();
@@ -106,7 +108,7 @@ public class EventHandler
 
             Timing.CallDelayed(0.05f, () =>
             {
-                customRole!.AddRole(randomPlayer);
+                _scp066role.AddRole(randomPlayer);
             });
         }
     }
@@ -116,7 +118,7 @@ public class EventHandler
     /// </summary>
     private void OnUsingItem(UsingItemEventArgs ev)
     {
-        if (CustomRole.Get(typeof(Scp066Role))!.Check(ev.Player))
+        if (_scp066role != null && _scp066role.Check(ev.Player))
         {
             ev.IsAllowed = false;
         }
@@ -127,7 +129,7 @@ public class EventHandler
     /// </summary>
     private void OnPlayerHurting(HurtingEventArgs ev)
     {
-        if (!CustomRole.Get(typeof(Scp066Role))!.Check(ev.Player))
+        if (_scp066role != null && !_scp066role.Check(ev.Player))
             return;
         
         // Disable damage from car
@@ -155,7 +157,7 @@ public class EventHandler
     /// </summary>
     private void OnSearchingPickup(SearchingPickupEventArgs ev)
     {
-        if (CustomRole.Get(typeof(Scp066Role))!.Check(ev.Player))
+        if (_scp066role != null && _scp066role.Check(ev.Player))
         {
             ev.IsAllowed = false;
         }
@@ -166,7 +168,7 @@ public class EventHandler
     /// </summary>
     private void OnDroppingItem(DroppingItemEventArgs ev)
     {
-        if (CustomRole.Get(typeof(Scp066Role))!.Check(ev.Player))
+        if (_scp066role != null && _scp066role.Check(ev.Player))
         {
             ev.IsAllowed = false;
         }
@@ -177,7 +179,7 @@ public class EventHandler
     /// </summary>
     private void OnPlayerDying(DyingEventArgs ev)
     {
-        if (CustomRole.Get(typeof(Scp066Role))!.Check(ev.Player))
+        if (_scp066role != null && _scp066role.Check(ev.Player))
         {
             ev.Player.ClearInventory();
         }
@@ -188,7 +190,7 @@ public class EventHandler
     /// </summary>
     private void OnWarheadStart(StartingEventArgs ev)
     {
-        if (CustomRole.Get(typeof(Scp066Role))!.Check(ev.Player))
+        if (_scp066role != null && _scp066role.Check(ev.Player))
         {
             ev.IsAllowed = false;
         }
@@ -199,7 +201,7 @@ public class EventHandler
     /// </summary>
     private void OnWarheadStop(StoppingEventArgs ev)
     {
-        if (CustomRole.Get(typeof(Scp066Role))!.Check(ev.Player))
+        if (_scp066role != null && _scp066role.Check(ev.Player))
         {
             ev.IsAllowed = false;
         }
@@ -210,7 +212,7 @@ public class EventHandler
     /// </summary>
     private void OnAddingTarget(AddingTargetEventArgs ev)
     {
-        if (CustomRole.Get(typeof(Scp066Role))!.Check(ev.Target))
+        if (_scp066role != null && _scp066role.Check(ev.Player))
         {
             ev.IsAllowed = false;
         }
@@ -221,7 +223,7 @@ public class EventHandler
     /// </summary>
     private void OnSpawningRagdoll(SpawningRagdollEventArgs ev)
     {
-        if (CustomRole.Get(typeof(Scp066Role))!.Check(ev.Player))
+        if (_scp066role != null && _scp066role.Check(ev.Player))
         {
             ev.IsAllowed = false;
         }
@@ -232,7 +234,7 @@ public class EventHandler
     /// </summary>
     private void OnEnteringPocketDimension(EnteringPocketDimensionEventArgs ev)
     {
-        if (CustomRole.Get(typeof(Scp066Role))!.Check(ev.Player))
+        if (_scp066role != null && _scp066role.Check(ev.Player))
         {
             ev.IsAllowed = false;
         }
@@ -243,7 +245,7 @@ public class EventHandler
     /// </summary>
     private void OnInteractingScp330(InteractingScp330EventArgs ev)
     {
-        if (CustomRole.Get(typeof(Scp066Role))!.Check(ev.Player))
+        if (_scp066role != null && _scp066role.Check(ev.Player))
         {
             ev.IsAllowed = false;
         }
@@ -258,8 +260,10 @@ public class EventHandler
         if (ev.Player is null)
             return;
         
-        var scp066Role = CustomRole.Get(typeof(Scp066Role));
-        foreach (Player scp066 in scp066Role!.TrackedPlayers)
+        if (_scp066role is null)
+            return;
+        
+        foreach (Player scp066 in _scp066role.TrackedPlayers)
         {
             InvisibleManager.MakeInvisibleForPlayer(scp066, ev.Player);
         }
@@ -271,42 +275,17 @@ public class EventHandler
     /// </summary>
     private void OnChangingSpectatedPlayer(ChangingSpectatedPlayerEventArgs ev)
     {
-        var scp066Role = CustomRole.Get(typeof(Scp066Role));
-        
-        if (scp066Role!.Check(ev.NewTarget))
+        if (_scp066role is null)
+            return;
+
+        if (_scp066role.Check(ev.NewTarget))
         {
             InvisibleManager.RemoveInvisibleForPlayer(ev.NewTarget, ev.Player);
         }
         
-        if (scp066Role!.Check(ev.OldTarget))
+        if (_scp066role.Check(ev.OldTarget))
         {
             InvisibleManager.MakeInvisibleForPlayer(ev.OldTarget, ev.Player);
-        }
-    }
-
-    /// <summary>
-    /// When SCP-066 pressed the [Alt], play the "Beethoven"
-    /// </summary>
-    private void OnTogglingNoClip(TogglingNoClipEventArgs ev)
-    {
-        if (CustomRole.Get(typeof(Scp066Role))!.Check(ev.Player))
-        {
-            ev.IsAllowed = false;
-            
-            //todo
-        }
-    }
-
-    /// <summary>
-    /// When SCP-066 pressed the [Q], play the "notes" sounds
-    /// </summary>
-    private void OnVoiceChatting(VoiceChattingEventArgs ev)
-    {
-        if (CustomRole.Get(typeof(Scp066Role))!.Check(ev.Player))
-        {
-            ev.IsAllowed = false;
-            
-            //todo
         }
     }
 }
