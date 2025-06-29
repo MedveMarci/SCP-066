@@ -15,7 +15,7 @@ public class Scp066Role : CustomRole
     public override string Description { get; set; } = "Eric's Toy";
     public override string CustomInfo { get; set; } = "SCP-066";
     public override uint Id { get; set; } = 660;
-    public override int MaxHealth { get; set; } = 3000;
+    public override int MaxHealth { get; set; } = 2000;
     public override SpawnProperties SpawnProperties { get; set; } = new()
     {
         Limit = 1,
