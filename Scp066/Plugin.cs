@@ -40,13 +40,6 @@ public class Plugin : Plugin<Config>
             return;
         }
         
-        // Checking that the HintServiceMeow plugin is loaded on the server
-        if (!AppDomain.CurrentDomain.GetAssemblies().Any(x => x.FullName.ToLower().Contains("hintservicemeow")))
-        {
-            Log.Error("HintServiceMeow is not installed. There is no way to give the player a hint.");
-            return;
-        }
-        
         // Register the custom scp066 role
         Config.Scp066RoleConfig.Register();
         

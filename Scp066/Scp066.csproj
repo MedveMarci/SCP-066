@@ -71,9 +71,6 @@
         <Reference Include="Exiled.Permissions, Version=9.6.1.0, Culture=neutral, processorArchitecture=Amd64">
           <HintPath>..\packages\ExMod.Exiled.9.6.1\lib\net48\Exiled.Permissions.dll</HintPath>
         </Reference>
-        <Reference Include="HintServiceMeow">
-          <HintPath>C:\SCP Dependencies\HintServiceMeow-Exiled.dll</HintPath>
-        </Reference>
         <Reference Include="LabApi, Version=1.1.0.0, Culture=neutral, processorArchitecture=Amd64">
           <HintPath>..\packages\ExMod.Exiled.9.6.1\lib\net48\LabApi.dll</HintPath>
         </Reference>
@@ -112,13 +109,14 @@
         <Compile Include="Features\Abilities\PlayNoise.cs" />
         <Compile Include="Features\Abilities\PlaySounds.cs" />
         <Compile Include="Features\Controller\CooldownController.cs" />
+        <Compile Include="Features\Controller\HintController.cs" />
         <Compile Include="Features\Controller\MovementController.cs" />
         <Compile Include="Features\Controller\PlayerController.cs" />
         <Compile Include="Features\Manager\AbilityManager.cs" />
         <Compile Include="Features\Manager\AudioManager.cs" />
-        <Compile Include="Features\Manager\HintManager.cs" />
         <Compile Include="Features\Manager\InvisibleManager.cs" />
         <Compile Include="Features\Manager\SchematicManager.cs" />
+        <Compile Include="Features\Manager\TextToyManager.cs" />
         <Compile Include="Features\Scp066Role.cs" />
         <Compile Include="Interfaces\Ability.cs" />
         <Compile Include="Interfaces\IAbility.cs" />
