@@ -1,6 +1,7 @@
 ﻿using Exiled.API.Features;
 using ProjectMER.Features.Objects;
 using UnityEngine;
+using Player = Exiled.API.Features.Player;
 
 namespace Scp066.Features.Controller;
 
@@ -19,6 +20,7 @@ public class MovementController : MonoBehaviour
     private void LateUpdate()
     {
         _schematicObject.transform.position = _player.GameObject.transform.position + _offset;
+        _schematicObject.transform.rotation = _player.GameObject.transform.rotation;
         _speaker.transform.position = _player.GameObject.transform.position;
     }
 
