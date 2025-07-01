@@ -30,7 +30,7 @@ public class PlayNoise : Ability
         if (scp066Role != null && scp066Role.Check(ev.Player))
         {
             ev.IsAllowed = false;
-            this.OnKeyPressed(ev.Player);
+            OnKeyPressed(ev.Player);
         }
     }    
     
@@ -40,7 +40,7 @@ public class PlayNoise : Ability
             return;
         
         audioPlayer.AddClip($"Beethoven");
-        Timing.RunCoroutine(this.CheckEndOfPlayback(player, audioPlayer));
+        Timing.RunCoroutine(CheckEndOfPlayback(player, audioPlayer));
     }
     
     private IEnumerator<float> CheckEndOfPlayback(Player scp066, AudioPlayer audioPlayer)

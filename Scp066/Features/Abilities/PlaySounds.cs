@@ -27,7 +27,7 @@ public class PlaySounds : Ability
         if (scp066Role != null && scp066Role.Check(ev.Player))
         {
             ev.IsAllowed = false;
-            this.OnKeyPressed(ev.Player);
+            OnKeyPressed(ev.Player);
         }
     }
     

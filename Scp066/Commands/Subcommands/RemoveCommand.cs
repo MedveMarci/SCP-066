@@ -14,7 +14,7 @@ public class RemoveCommand : ICommand
     {
         if (arguments.Count != 1)
         {
-            response = $"Specify the player id to the command: scp999 remove [id]";
+            response = $"Specify the player id to the command: scp066 remove [id]";
             return false;
         }
         

@@ -55,9 +55,9 @@ public class Scp066Role : CustomRole
         "Configure your buttons in the settings. Remove the stars.";
     
     /// <summary>
-    /// Adding the SCP-999 role to the player
+    /// Adding the SCP-066 role to the player
     /// </summary>
-    /// <param name="player">The player who should become SCP-999</param>
+    /// <param name="player">The player who should become SCP-066</param>
     public override void AddRole(Player player)
     {
         // Setup of a custom role

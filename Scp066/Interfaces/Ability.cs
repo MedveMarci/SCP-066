@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using Exiled.API.Features;
 using Scp066.Features.Controller;
-using UnityEngine;
 
 namespace Scp066.Interfaces;
 public abstract class Ability : IAbility

@@ -299,7 +299,7 @@ public class EventHandler
         if (_scp066role is null)
             return;
 
-        if (ev.Door.Type == DoorType.CheckpointLczA || ev.Door.Type == DoorType.CheckpointLczB)
+        if (ev.Door.Type is DoorType.CheckpointLczA or DoorType.CheckpointLczB)
         {
             ev.Door.IsOpen = !ev.Door.IsOpen;
         }

@@ -44,11 +44,11 @@ public class Plugin : Plugin<Config>
         Config.Scp066RoleConfig.Register();
         
         // Create config folders
-        BasePath = Path.Combine(Paths.IndividualConfigs, this.Name.ToLower());
+        BasePath = Path.Combine(Paths.IndividualConfigs, Name.ToLower());
         SchematicPath = Path.Combine(BasePath, "Schematics");
         AudioPath = Path.Combine(BasePath, "Audio");
-        this.CreatePluginDirectory(SchematicPath);
-        this.CreatePluginDirectory(AudioPath);
+        CreatePluginDirectory(SchematicPath);
+        CreatePluginDirectory(AudioPath);
         
         // Register the abilities
         AbilityManager.RegisterAbilities();

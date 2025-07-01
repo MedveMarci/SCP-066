@@ -12,7 +12,7 @@ public class CooldownController : MonoBehaviour
     /// </summary>
     public void Awake()
     {
-        this._abilityCooldown = AbilityManager.GetAbilities.ToDictionary(a => a.Name, _ => 0f);
+        _abilityCooldown = AbilityManager.GetAbilities.ToDictionary(a => a.Name, _ => 0f);
         InvokeRepeating(nameof(CheckCooldown), 0f, 1f);
         Log.Debug($"[CooldownController] Invoke the cooldown cycle");
     }
@@ -22,15 +22,15 @@ public class CooldownController : MonoBehaviour
     /// </summary>
     void CheckCooldown()
     {
-        foreach (var key in this._abilityCooldown.Keys.ToList())
+        foreach (var key in _abilityCooldown.Keys.ToList())
         {
-            if (this._abilityCooldown[key] > 0)
+            if (_abilityCooldown[key] > 0)
             {
-                this._abilityCooldown[key]--;
+                _abilityCooldown[key]--;
             }
             else
             {
-                this._abilityCooldown[key] = 0;
+                _abilityCooldown[key] = 0;
             }
         }
     }
@@ -40,13 +40,13 @@ public class CooldownController : MonoBehaviour
     /// </summary>
     void OnDestroy()
     {
-        this.CancelInvoke(nameof(CheckCooldown));
+        CancelInvoke(nameof(CheckCooldown));
         Log.Debug($"[CooldownController] Cancel the cooldown cycle");
     }
     
     // Properties
-    public bool IsAbilityAvailable(string ability) => this._abilityCooldown[ability] <= 0;
-    public void SetCooldownForAbility(string ability, float time) => this._abilityCooldown[ability] = time;
+    public bool IsAbilityAvailable(string ability) => _abilityCooldown[ability] <= 0;
+    public void SetCooldownForAbility(string ability, float time) => _abilityCooldown[ability] = time;
 
     // Fields
     private Dictionary<string, float> _abilityCooldown;
