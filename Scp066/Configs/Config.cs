@@ -17,7 +17,10 @@ public class Config : IConfig
     public byte Volume { get; set; } = 100;
     
     [Description("Maximum range of SCP-066 abilities")]
-    public float MaxDistance { get; set; } = 10;
+    public float Distance { get; set; } = 5;
+    
+    [Description("How much damage should SCP-066 do?")]
+    public float Damage { get; set; } = 8;
     
     [Description("The minimum players required to spawn SCP-066")]
     public int MinimumPlayers { get; set; } = 5;
@@ -29,7 +32,7 @@ public class Config : IConfig
     public string SchematicName { get; set; } = "Scp066";
     
     [Description("Offset the position of the schematic relative to the player")]
-    public Vector3 SchematicOffset { get; set; } = new(0f, -0.71f, 0f);
+    public Vector3 SchematicOffset { get; set; } = new(0f, -1f, 0f);
 
     [Description("Configs for the SCP-066 role players turn into")]
     public Scp066Role Scp066RoleConfig { get; set; } = new();
