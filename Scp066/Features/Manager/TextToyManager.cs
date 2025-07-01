@@ -1,16 +1,19 @@
-﻿using LabApi.Features.Wrappers;
-using ProjectMER.Features.Objects;
+﻿using ProjectMER.Features.Objects;
 using UnityEngine;
+using LabApi.Features.Wrappers;
+using Player = Exiled.API.Features.Player;
 
 namespace Scp066.Features.Manager;
 public static class TextToyManager
 {
     public static TextToy CreateTextForSchematic(Player scp066, SchematicObject schematicObject)
     {
-        TextToy textToyObject = TextToy.Create(schematicObject.Position, schematicObject.Rotation, Vector3.one * 0.2f, schematicObject.transform.parent, false);
+        TextToy textToyObject = TextToy.Create(Vector3.zero, Quaternion.identity, Vector3.one, null, false);
         textToyObject.TextFormat = "<color=red>SCP-066</color>";
+        textToyObject.Parent = schematicObject.transform;
         textToyObject.Transform.localPosition += new Vector3(0, 1, 0);
         textToyObject.Transform.localRotation = Quaternion.Euler(0f, 180f, 0f);
+        textToyObject.Transform.localScale = Vector3.one * 0.2f;
         textToyObject.Spawn();
 
         /*
