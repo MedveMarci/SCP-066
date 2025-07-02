@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using CustomPlayerEffects;
 using Exiled.API.Enums;
 using Exiled.API.Features;
 using Exiled.CustomRoles.API.Features;
@@ -19,12 +18,10 @@ public class PlayNoise : Ability
     public override void Register()
     {
         Exiled.Events.Handlers.Player.TogglingNoClip += this.OnTogglingNoClip;
-        Exiled.Events.Handlers.Player.Hurting += this.OnHurting;
     }
     public override void Unregister()
     {
         Exiled.Events.Handlers.Player.TogglingNoClip -= this.OnTogglingNoClip;
-        Exiled.Events.Handlers.Player.Hurting -= this.OnHurting;
     }
 
     private void OnTogglingNoClip(TogglingNoClipEventArgs ev)
@@ -32,18 +29,7 @@ public class PlayNoise : Ability
         if (CustomRole.Get(typeof(Scp066Role)) is Scp066Role scp066Role && scp066Role.Check(ev.Player))
         {
             ev.IsAllowed = false;
-            OnKeyPressed(ev.Player);
-        }
-    }
-
-    private void OnHurting(HurtingEventArgs ev)
-    {
-        if (CustomRole.Get(typeof(Scp066Role)) is Scp066Role scp066Role && scp066Role.Check(ev.Attacker))
-        {
-            if (ev.DamageHandler.Type is DamageType.CardiacArrest)
-            {
-                ev.Amount = Plugin.Singleton.Config.Damage;
-            }
+            this.OnKeyPressed(ev.Player);
         }
     }
     
@@ -59,16 +45,24 @@ public class PlayNoise : Ability
     private IEnumerator<float> CheckEndOfPlayback(Player scp066, AudioPlayer audioPlayer)
     {
         float distance = Plugin.Singleton.Config.Distance;
+        float damage = Plugin.Singleton.Config.Damage;
+        bool isBreakableWindows = Plugin.Singleton.Config.IsBreakableWindows;
+
+        if (distance <= 0)
+            yield break;
         
         // While the symphony is running
         while (audioPlayer.ClipsById.Count > 0)
         {
             // SCP-066 can break the windows
-            foreach (var window in Window.List)
+            if (isBreakableWindows is true)
             {
-                if (Vector3.Distance(scp066.Position, window.Position) <= distance && !window.IsBroken)
+                foreach (var window in Window.List)
                 {
-                    window.BreakWindow();
+                    if (Vector3.Distance(scp066.Position, window.Position) <= distance && !window.IsBroken)
+                    {
+                        window.BreakWindow();
+                    }
                 }
             }
             
@@ -90,7 +84,8 @@ public class PlayNoise : Ability
                         effect._duration += 0.5f;
                     }
                     */
-                    player.EnableEffect<CardiacArrest>(0.5f);
+                    //player.EnableEffect<CardiacArrest>(0.5f);
+                    player.Hurt(scp066, damage, DamageType.Custom, null, "Dead by SCP-066");
                 }
             }
             

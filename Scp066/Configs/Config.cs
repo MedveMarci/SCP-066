@@ -34,6 +34,9 @@ public class Config : IConfig
     [Description("Offset the position of the schematic relative to the player")]
     public Vector3 SchematicOffset { get; set; } = new(0f, -1f, 0f);
 
+    [Description("Can SCP-066 destroy windows with its Noise ability?")]
+    public bool IsBreakableWindows { get; set; } = true;
+
     [Description("Configs for the SCP-066 role players turn into")]
     public Scp066Role Scp066RoleConfig { get; set; } = new();
 }
