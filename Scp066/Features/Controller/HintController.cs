@@ -14,13 +14,14 @@ public class HintController : MonoBehaviour
         _player = player;
         _abilities = AbilityManager.GetAbilities.OrderBy(r => r.KeyId).ToList();
         _controller = player.GameObject.GetComponent<CooldownController>();
-        InvokeRepeating(nameof(CheckHint), 0f, 1f);
+        InvokeRepeating(nameof(CheckHint), 0f, 0.5f);
         Log.Debug($"[CooldownController] Invoke the hint cycle");
     }
     
     void CheckHint()
     {
         StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.Append("<align=right>");
         stringBuilder.Append("<size=50><color=red><b>SCP-066</b></color></size>\n");
         stringBuilder.Append("<size=30><color=red>Eric's Toy play sounds</color></size>\n\n");
         stringBuilder.Append("Abilities:\n");
@@ -37,6 +38,7 @@ public class HintController : MonoBehaviour
         }
                 
         stringBuilder.Append($"\n<size=18><color=red>Kill the players with Noise</color></size>");
+        stringBuilder.Append("</align>\n\n\n\n\n\n\n");
         _player.ShowHint(stringBuilder.ToString(), 1f);
     }
     
