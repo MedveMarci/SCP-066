@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.Text;
 using CustomPlayerEffects;
 using Exiled.API.Enums;
 using Exiled.API.Features;
+using Exiled.API.Features.Pools;
 using Exiled.API.Features.Spawn;
 using Exiled.CustomRoles.API.Features;
 using PlayerRoles;
@@ -21,10 +23,7 @@ public class Scp066Role : CustomRole
         Limit = 1,
         DynamicSpawnPoints = new List<DynamicSpawnPoint>()
         {
-            new() { Chance = 25, Location = SpawnLocationType.Inside330Chamber },
-            new() { Chance = 25, Location = SpawnLocationType.Inside914 },
-            new() { Chance = 25, Location = SpawnLocationType.InsideGr18 },
-            new() { Chance = 25, Location = SpawnLocationType.InsideLczWc }
+            new() { Chance = 100, Location = SpawnLocationType.Inside173Gate }
         }
     };
     
@@ -60,14 +59,28 @@ public class Scp066Role : CustomRole
     /// <param name="player">The player who should become SCP-066</param>
     public override void AddRole(Player player)
     {
-        // Setup of a custom role
-        base.AddRole(player);
-        player.CustomName = this.Name;
-        player.EnableEffect<Disabled>();
-        player.EnableEffect<Stained>();
-        
-        // Register PlayerComponent for player
-        player.GameObject.AddComponent<PlayerController>();
+      player.Role.Set(this.Role, SpawnReason.ForceClass, RoleSpawnFlags.None);
+      player.Position = this.GetSpawnPosition();
+      player.ClearItems();
+      player.ClearAmmo();
+      player.UniqueRole = this.Name;
+      this.TrackedPlayers.Add(player);
+      player.Health = this.MaxHealth;
+      player.MaxHealth = this.MaxHealth;
+      player.Scale = this.Scale;
+      player.CustomName = this.Name;
+      player.CustomInfo = player.CustomName + "\n" + this.CustomInfo;
+      
+      this.ShowMessage(player);
+      this.ShowBroadcast(player);
+      this.RoleAdded(player);
+      player.SendConsoleMessage(this.ConsoleMessage, "green");
+      
+      player.EnableEffect<Disabled>();
+      player.EnableEffect<Stained>();
+      
+      // Register PlayerComponent for player
+      player.GameObject.AddComponent<PlayerController>();
     }
 
     /// <summary>
@@ -79,7 +92,6 @@ public class Scp066Role : CustomRole
         // Remove a custom role
         base.RemoveRole(player);
         player.CustomName = null;
-        player.IsMuted = false;
         
         // Unregister PlayerComponent for player
         Object.Destroy(player.GameObject.GetComponent<PlayerController>());
