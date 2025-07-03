@@ -4,6 +4,7 @@ using Exiled.API.Features;
 using Exiled.CustomRoles.API.Features;
 using Exiled.Events.EventArgs.Player;
 using MEC;
+using PlayerStatsSystem;
 using Scp066.Interfaces;
 using UnityEngine;
 
@@ -85,7 +86,7 @@ public class PlayNoise : Ability
                     }
                     */
                     //player.EnableEffect<CardiacArrest>(0.5f);
-                    player.Hurt(scp066, damage, DamageType.Custom, null, "Dead by SCP-066");
+                    player.Hurt(new CustomReasonDamageHandler("Dead by SCP-066", damage));
                 }
             }
             
