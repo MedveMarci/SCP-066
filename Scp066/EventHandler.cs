@@ -146,6 +146,12 @@ public class EventHandler
                 ev.IsAllowed = false;
             }
         
+            // Disable fall damage
+            if (ev.DamageHandler.Type == DamageType.Falldown)
+            {
+                ev.IsAllowed = false;
+            }
+            
             // Increase damage from decontamination
             if (ev.DamageHandler.Type == DamageType.Decontamination)
             {
