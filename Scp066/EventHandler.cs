@@ -131,7 +131,10 @@ public class EventHandler
     /// </summary>
     private void OnPlayerHurting(HurtingEventArgs ev)
     {
-        if (_scp066role != null && _scp066role.Check(ev.Player))
+        if (_scp066role is null)
+            return;
+        
+        if (_scp066role.Check(ev.Player))
         {
             // Disable damage from car
             if (ev.DamageHandler.Type == DamageType.Crushed && 
@@ -157,6 +160,11 @@ public class EventHandler
             {
                 ev.Amount = 300;
             }
+        }
+
+        if (_scp066role.Check(ev.Attacker))
+        {
+            ev.Amount = 0;
         }
     }
     

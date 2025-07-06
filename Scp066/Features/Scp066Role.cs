@@ -21,10 +21,7 @@ public class Scp066Role : CustomRole
     public override SpawnProperties SpawnProperties { get; set; } = new()
     {
         Limit = 1,
-        DynamicSpawnPoints = new List<DynamicSpawnPoint>()
-        {
-            new() { Chance = 100, Location = SpawnLocationType.Inside173Gate }
-        }
+        DynamicSpawnPoints = [new DynamicSpawnPoint { Chance = 100, Location = SpawnLocationType.Inside173Gate }]
     };
     
     public override bool KeepPositionOnSpawn { get; set; } = true;
@@ -60,7 +57,7 @@ public class Scp066Role : CustomRole
     public override void AddRole(Player player)
     {
       player.Role.Set(this.Role, SpawnReason.ForceClass, RoleSpawnFlags.None);
-      player.Position = this.GetSpawnPosition();
+      player.Position = this.GetSpawnPosition() + new Vector3(0f, 0.5f, 0f);
       player.ClearItems();
       player.ClearAmmo();
       player.UniqueRole = this.Name;
@@ -77,7 +74,7 @@ public class Scp066Role : CustomRole
       player.SendConsoleMessage(this.ConsoleMessage, "green");
       
       player.EnableEffect<Disabled>();
-      player.EnableEffect<Stained>();
+      player.EnableEffect<Slowness>(intensity: 50);
       
       // Register PlayerComponent for player
       player.GameObject.AddComponent<PlayerController>();

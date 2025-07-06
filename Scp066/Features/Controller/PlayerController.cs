@@ -18,8 +18,6 @@ public class PlayerController : MonoBehaviour
         _player = Player.Get(gameObject);
         Config config = Plugin.Singleton.Config;
         
-        InvisibleManager.MakeInvisible(_player); // Make player invisible for other players
-        
         _schematicObject = SchematicManager.AddSchematicByName(config.SchematicName);  // Create schematic
         _audioPlayer = AudioManager.AddAudioPlayer(_player, config.Volume);            // Create audioPlayer
         _audioPlayer.TryGetSpeaker("scp066-speaker", out Speaker speaker);        // Get speaker
@@ -33,6 +31,11 @@ public class PlayerController : MonoBehaviour
         {
             _hintController = gameObject.AddComponent<HintController>();
             _hintController.Init(_player);
+        });
+
+        Timing.CallDelayed(1f, () =>
+        {
+            InvisibleManager.MakeInvisible(_player); // Make player invisible for other players
         });
         
         Log.Debug($"[PlayerController] Custom role granted for {_player.Nickname}");
