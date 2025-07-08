@@ -21,7 +21,7 @@ public class PlayerController : MonoBehaviour
         _schematicObject = SchematicManager.AddSchematicByName(config.SchematicName);  // Create schematic
         _audioPlayer = AudioManager.AddAudioPlayer(_player, config.Volume);            // Create audioPlayer
         _audioPlayer.TryGetSpeaker("scp066-speaker", out Speaker speaker);        // Get speaker
-        _textToy = TextToyManager.CreateTextForSchematic(_player, _schematicObject); // Create TextToy
+        _textToy = TextToyManager.CreateTextForSchematic(_player, _schematicObject);   // Create TextToy
 
         _movementController = gameObject.AddComponent<MovementController>();
         _movementController.Init(_schematicObject, speaker, config.SchematicOffset);
@@ -32,11 +32,6 @@ public class PlayerController : MonoBehaviour
             _hintController = gameObject.AddComponent<HintController>();
             _hintController.Init(_player);
         });
-
-        Timing.CallDelayed(1f, () =>
-        {
-            InvisibleManager.MakeInvisible(_player); // Make player invisible for other players
-        });
         
         Log.Debug($"[PlayerController] Custom role granted for {_player.Nickname}");
     }
@@ -46,15 +41,14 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     void OnDestroy()
     {
-        Destroy(_hintController);     // Destroy hints
-        Destroy(_movementController); // Destroy movement controller for schematic and audio
-        Destroy(_cooldownController); // Destroy cooldown for abilities
+        Destroy(_hintController);       // Destroy hints
+        Destroy(_movementController);   // Destroy movement controller for schematic and audio
+        Destroy(_cooldownController);   // Destroy cooldown for abilities
 
-        InvisibleManager.RemoveInvisible(_player); // Remove invisible
-        _textToy.Destroy();                             // Remove text toy
-        _audioPlayer.RemoveAllClips();                  // Remove all audio clips
-        _audioPlayer.Destroy();                         // Remove a AudioPlayer
-        _schematicObject.Destroy();                // Remove schematic
+        _textToy.Destroy();             // Remove text toy
+        _audioPlayer.RemoveAllClips();  // Remove all audio clips
+        _audioPlayer.Destroy();         // Remove a AudioPlayer
+        _schematicObject.Destroy();     // Remove schematic
         
         Log.Debug($"[PlayerController] Custom role removed for {_player.Nickname}");
     }

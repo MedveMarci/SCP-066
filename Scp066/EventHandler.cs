@@ -7,6 +7,7 @@ using Exiled.Events.EventArgs.Player;
 using Exiled.Events.EventArgs.Scp096;
 using Exiled.Events.EventArgs.Scp330;
 using Exiled.Events.EventArgs.Warhead;
+using LabApi.Events.Arguments.PlayerEvents;
 using MEC;
 using Scp066.Features;
 using Scp066.Features.Manager;
@@ -34,9 +35,8 @@ public class EventHandler
         Exiled.Events.Handlers.Player.UsingItem += this.OnUsingItem;
         Exiled.Events.Handlers.Player.Dying += this.OnPlayerDying;
         Exiled.Events.Handlers.Scp330.InteractingScp330 += this.OnInteractingScp330;
-        Exiled.Events.Handlers.Player.Verified += this.OnVerified;
-        Exiled.Events.Handlers.Player.ChangingSpectatedPlayer += this.OnChangingSpectatedPlayer;
         Exiled.Events.Handlers.Player.InteractingDoor += this.OnInteractionDoor;
+        LabApi.Events.Handlers.PlayerEvents.ValidatedVisibility += this.OnPlayerValidatedVisibility;
     }
     
     ~EventHandler()
@@ -54,9 +54,8 @@ public class EventHandler
         Exiled.Events.Handlers.Player.UsingItem -= this.OnUsingItem;
         Exiled.Events.Handlers.Player.Dying -= this.OnPlayerDying;
         Exiled.Events.Handlers.Scp330.InteractingScp330 -= this.OnInteractingScp330;
-        Exiled.Events.Handlers.Player.Verified -= this.OnVerified;
-        Exiled.Events.Handlers.Player.ChangingSpectatedPlayer -= this.OnChangingSpectatedPlayer;
         Exiled.Events.Handlers.Player.InteractingDoor -= this.OnInteractionDoor;
+        LabApi.Events.Handlers.PlayerEvents.ValidatedVisibility -= this.OnPlayerValidatedVisibility;
     }
     
     /// <summary>
@@ -268,44 +267,6 @@ public class EventHandler
     }
 
     /// <summary>
-    /// Update size from SCP-066 to new player
-    /// </summary>
-    /// <param name="ev"></param>
-    private void OnVerified(VerifiedEventArgs ev)
-    {
-        if (ev.Player is null)
-            return;
-        
-        if (_scp066role is null)
-            return;
-        
-        foreach (Player scp066 in _scp066role.TrackedPlayers)
-        {
-            InvisibleManager.MakeInvisibleForPlayer(scp066, ev.Player);
-        }
-    }
-    
-    /// <summary>
-    /// Spectators should see SCP-066 in the first person, unlike other players
-    /// It works with a delay from the server
-    /// </summary>
-    private void OnChangingSpectatedPlayer(ChangingSpectatedPlayerEventArgs ev)
-    {
-        if (_scp066role is null)
-            return;
-
-        if (_scp066role.Check(ev.NewTarget))
-        {
-            InvisibleManager.RemoveInvisibleForPlayer(ev.NewTarget, ev.Player);
-        }
-        
-        if (_scp066role.Check(ev.OldTarget))
-        {
-            InvisibleManager.MakeInvisibleForPlayer(ev.OldTarget, ev.Player);
-        }
-    }
-
-    /// <summary>
     /// Allow SCP-066 to open checkpoints as SCP
     /// </summary>
     private void OnInteractionDoor(InteractingDoorEventArgs ev)
@@ -316,6 +277,25 @@ public class EventHandler
         if (ev.Door.Type is DoorType.CheckpointLczA or DoorType.CheckpointLczB)
         {
             ev.Door.IsOpen = !ev.Door.IsOpen;
+        }
+    }
+    
+    /// <summary>
+    /// Making SCP-999 invisible to every player
+    /// </summary>
+    private void OnPlayerValidatedVisibility(PlayerValidatedVisibilityEventArgs ev)
+    {
+        if (_scp066role is null)
+            return;
+
+        if (_scp066role.Check(ev.Target))
+        {
+            ev.IsVisible = false;
+
+            if (ev.Target.CurrentSpectators.Contains(ev.Player))
+            {
+                ev.IsVisible = true;
+            }
         }
     }
 }

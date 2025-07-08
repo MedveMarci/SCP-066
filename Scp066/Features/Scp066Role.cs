@@ -56,8 +56,9 @@ public class Scp066Role : CustomRole
     /// <param name="player">The player who should become SCP-066</param>
     public override void AddRole(Player player)
     {
-      player.Role.Set(this.Role, SpawnReason.ForceClass, RoleSpawnFlags.None);
-      player.Position = this.GetSpawnPosition() + new Vector3(0f, 0.5f, 0f);
+	  player.Role.Set(this.Role, SpawnReason.ForceClass, RoleSpawnFlags.All);
+      player.Position = SpawnProperties.DynamicSpawnPoints.RandomItem().Position;
+      
       player.ClearItems();
       player.ClearAmmo();
       player.UniqueRole = this.Name;

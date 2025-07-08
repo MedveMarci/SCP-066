@@ -12,7 +12,7 @@ public class Plugin : Plugin<Config>
 {
     public override string Name => "Scp066";
     public override string Author => "RisottoMan";
-    public override Version Version => new(1, 0, 0);
+    public override Version Version => new(1, 1, 0);
     public override Version RequiredExiledVersion => new(9, 6, 1);
     
     private Harmony _harmony;
