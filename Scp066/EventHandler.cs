@@ -271,10 +271,10 @@ public class EventHandler
     /// </summary>
     private void OnInteractionDoor(InteractingDoorEventArgs ev)
     {
-        if (_scp066role is null)
+        if (_scp066role is null || !_scp066role.Check(ev.Player))
             return;
 
-        if (ev.Door.Type is DoorType.CheckpointLczA or DoorType.CheckpointLczB)
+        if (ev.Door.IsCheckpoint)
         {
             ev.Door.IsOpen = !ev.Door.IsOpen;
         }
