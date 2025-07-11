@@ -30,15 +30,15 @@ public class Scp066Role : CustomRole
     public override bool KeepRoleOnDeath { get; set; } = false;
     public override bool IgnoreSpawnSystem { get; set; } = true;
     public override bool KeepRoleOnChangingRole { get; set; } = false;
-    public override RoleTypeId Role { get; set; } = RoleTypeId.Tutorial;
+    public override RoleTypeId Role { get; set; } = RoleTypeId.Scp0492;
     
     public override Exiled.API.Features.Broadcast Broadcast { get; set; } = new()
     {
         Show = true,
         Content = 
             "<color=red>\ud83c\udfb5 You are SCP-066 - Eric's Toy \ud83c\udfb5\n" +
-            "You play sounds to kill humans\n" +
-            "Use the [Alt] and [Q] buttons to play sounds</color>",
+            "Play sounds to kill humans\n" +
+            "Use abilities by clicking on the buttons</color>",
         Duration = 15
     };
 
@@ -46,8 +46,7 @@ public class Scp066Role : CustomRole
     
     public override string ConsoleMessage { get; set; } =
         "You are SCP-066 - Eric's Toy!\n" +
-        "You play sounds to kill humans\n" +
-        "Use the [Alt] and [Q] buttons to play sounds</color>\n" +
+        "Play sounds to kill humans\n" +
         "Configure your buttons in the settings. Remove the stars.";
     
     /// <summary>
@@ -76,6 +75,7 @@ public class Scp066Role : CustomRole
       
       player.EnableEffect<Disabled>();
       player.EnableEffect<Slowness>(intensity: 50);
+      player.EnableEffect<SilentWalk>(intensity: 50);
       
       // Register PlayerComponent for player
       player.GameObject.AddComponent<PlayerController>();

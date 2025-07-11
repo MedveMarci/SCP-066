@@ -4,6 +4,7 @@ using System.Linq;
 using HarmonyLib;
 using Exiled.API.Features;
 using Exiled.CustomRoles.API;
+using PlayerRoles;
 using Scp066.Configs;
 using Scp066.Features.Manager;
 
@@ -12,7 +13,7 @@ public class Plugin : Plugin<Config>
 {
     public override string Name => "Scp066";
     public override string Author => "RisottoMan";
-    public override Version Version => new(1, 1, 0);
+    public override Version Version => new(1, 2, 0);
     public override Version RequiredExiledVersion => new(9, 6, 1);
     
     private Harmony _harmony;
@@ -50,16 +51,17 @@ public class Plugin : Plugin<Config>
         CreatePluginDirectory(SchematicPath);
         CreatePluginDirectory(AudioPath);
         
-        // Register the abilities
         AbilityManager.RegisterAbilities();
-        
+        KeybindManager.RegisterKeybinds();
+
         base.OnEnabled();
     }
 
     public override void OnDisabled()
     {
         AbilityManager.UnregisterAbilities();
-        
+        KeybindManager.UnregisterKeybinds();
+
         Config.Scp066RoleConfig.Unregister();
         _harmony.UnpatchAll();
 

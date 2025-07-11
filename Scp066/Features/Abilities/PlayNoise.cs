@@ -1,8 +1,5 @@
 ﻿using System.Collections.Generic;
-using Exiled.API.Enums;
 using Exiled.API.Features;
-using Exiled.CustomRoles.API.Features;
-using Exiled.Events.EventArgs.Player;
 using MEC;
 using PlayerStatsSystem;
 using Scp066.Interfaces;
@@ -13,32 +10,15 @@ public class PlayNoise : Ability
 {
     public override string Name => "\ud83c\udfba Noise";
     public override string Description => "Plays Beethoven's Symphony No. 2, which kills players near SCP-066";
-    public override int KeyId => 661;
-    public override string KeyCode => "Alt";
+    public override int KeyId => 662;
+    public override KeyCode KeyCode => KeyCode.F;
     public override float Cooldown => 40f;
-    public override void Register()
-    {
-        Exiled.Events.Handlers.Player.TogglingNoClip += this.OnTogglingNoClip;
-    }
-    public override void Unregister()
-    {
-        Exiled.Events.Handlers.Player.TogglingNoClip -= this.OnTogglingNoClip;
-    }
-
-    private void OnTogglingNoClip(TogglingNoClipEventArgs ev)
-    {
-        if (CustomRole.Get(typeof(Scp066Role)) is Scp066Role scp066Role && scp066Role.Check(ev.Player))
-        {
-            ev.IsAllowed = false;
-            this.OnKeyPressed(ev.Player);
-        }
-    }
-    
     protected override void ActivateAbility(Player player, AudioPlayer audioPlayer)
     {
         if (audioPlayer is null)
             return;
         
+        int value = Random.Range(0, 3) + 1;
         audioPlayer.AddClip($"Beethoven");
         Timing.RunCoroutine(CheckEndOfPlayback(player, audioPlayer));
     }

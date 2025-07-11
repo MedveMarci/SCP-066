@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Text;
 using Exiled.API.Features;
+using Hints;
 using Scp066.Features.Manager;
 using Scp066.Interfaces;
 using UnityEngine;
@@ -25,7 +26,8 @@ public class HintController : MonoBehaviour
         stringBuilder.Append("<size=50><color=red><b>SCP-066</b></color></size>\n");
         stringBuilder.Append("<size=30><color=red>Eric's Toy play sounds</color></size>\n\n");
         stringBuilder.Append("Abilities:\n");
-        
+
+        int i = 0;
         foreach (var ability in _abilities)
         {
             string color = "red";
@@ -34,12 +36,18 @@ public class HintController : MonoBehaviour
                 color = "#880000";
             }
                     
-            stringBuilder.Append($"<color={color}>{ability.Name}  [{ability.KeyCode}]</color>\n");
+            stringBuilder.Append($"<color={color}>{ability.Name}  {{{i}}}</color>\n");
+            i++;
         }
                 
-        stringBuilder.Append($"\n<size=18><color=red>Kill the players with Noise</color></size>");
-        stringBuilder.Append("</align>\n\n\n\n\n\n\n");
-        _player.ShowHint(stringBuilder.ToString(), 1f);
+        stringBuilder.Append($"\n<size=18>if you cant use abilities\nremove \u2b50 in settings</size>");
+        stringBuilder.Append("</align>\n\n\n\n\n\n\n\n");
+        
+        _player.HintDisplay.Show(new TextHint(stringBuilder.ToString(), [
+            new SSKeybindHintParameter(660),
+            new SSKeybindHintParameter(661),
+            new SSKeybindHintParameter(662),
+        ], durationScalar: 1f));
     }
     
     void OnDestroy()

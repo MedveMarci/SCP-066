@@ -22,6 +22,7 @@
         <DefineConstants>TRACE</DefineConstants>
         <ErrorReport>prompt</ErrorReport>
         <WarningLevel>4</WarningLevel>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     </PropertyGroup>
     <ItemGroup>
         <Reference Include="0Harmony, Version=2.3.6.0, Culture=neutral, processorArchitecture=MSIL">
@@ -86,13 +87,15 @@
         <Compile Include="Configs\Config.cs" />
         <Compile Include="EventHandler.cs" />
         <Compile Include="Features\Abilities\PlayNoise.cs" />
-        <Compile Include="Features\Abilities\PlaySounds.cs" />
+        <Compile Include="Features\Abilities\PlayNotes.cs" />
+        <Compile Include="Features\Abilities\PlayEric.cs" />
         <Compile Include="Features\Controller\CooldownController.cs" />
         <Compile Include="Features\Controller\HintController.cs" />
         <Compile Include="Features\Controller\MovementController.cs" />
         <Compile Include="Features\Controller\PlayerController.cs" />
         <Compile Include="Features\Manager\AbilityManager.cs" />
         <Compile Include="Features\Manager\AudioManager.cs" />
+        <Compile Include="Features\Manager\KeybindManager.cs" />
         <Compile Include="Features\Manager\SchematicManager.cs" />
         <Compile Include="Features\Manager\TextToyManager.cs" />
         <Compile Include="Features\Scp066Role.cs" />
