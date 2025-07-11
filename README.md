@@ -31,7 +31,7 @@
 
 # Credits
  ![img](https://img.shields.io/github/downloads/RisottoMan/SCP-066/total.svg)
-- Thanks ``PaЯRoT`` for the creating model
+- Thanks ``PaЯRoT`` for the creating model and for publishing in KO-FI
 - Thanks to everyone who helped test SCP-066
 <p align="center">
   <img width="400" src="https://github.com/RisottoMan/SCP-066/blob/main/Photos/Credit.png" alt="Credit">
