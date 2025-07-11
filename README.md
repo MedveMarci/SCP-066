@@ -12,7 +12,7 @@
   <img src="https://github.com/RisottoMan/SCP-066/blob/main/Photos/Eric.png" alt="SCP-999 - `Abilities`">
 </p>
 
-## 🎺🎻 **Noise** - Plays Beethoven's Symphony No. 2, which kills players near SCP-066.
+## 🎺🎻 **Noise** - Plays Beethoven's Symphony, which kills players near SCP-066.
 
 <p align="center">
   <img src="https://github.com/RisottoMan/SCP-066/blob/main/Photos/Noise.png" alt="SCP-999 - `Abilities`">
