@@ -30,7 +30,7 @@
 - Use ``scp066 remove [id]`` to remove scp066, if the player has SCP-066 role
 
 # Credits
- ![img](https://img.shields.io/github/downloads/RisottoMan/SCP-999/total.svg)
+ ![img](https://img.shields.io/github/downloads/RisottoMan/SCP-066/total.svg)
 - Thanks ``PaЯRoT`` for the creating model
 - Thanks to everyone who helped test SCP-066
 <p align="center">
