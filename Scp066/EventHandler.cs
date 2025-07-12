@@ -269,13 +269,17 @@ public class EventHandler
     /// </summary>
     private void OnPlayerValidatedVisibility(PlayerValidatedVisibilityEventArgs ev)
     {
-        if (_scp066role is null || !_scp066role.Check(ev.Player))
+        if (_scp066role is null)
             return;
 
-        ev.IsVisible = false;
-        if (ev.Target.CurrentSpectators.Contains(ev.Player))
+        if (_scp066role.Check(ev.Target))
         {
-            ev.IsVisible = true;
+            ev.IsVisible = false;
+
+            if (ev.Target.CurrentSpectators.Contains(ev.Player))
+            {
+                ev.IsVisible = true;
+            }
         }
     }
 }
