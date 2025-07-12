@@ -10,7 +10,6 @@ using Exiled.Events.EventArgs.Warhead;
 using LabApi.Events.Arguments.PlayerEvents;
 using MEC;
 using Scp066.Features;
-using Scp066.Features.Manager;
 using Random = UnityEngine.Random;
 
 namespace Scp066;
@@ -195,6 +194,7 @@ public class EventHandler
         if (_scp066role != null && _scp066role.Check(ev.Player))
         {
             ev.Player.ClearInventory();
+            Cassie.MessageTranslated("SCP 0 6 6 successfully terminated.", "SCP-066 successfully terminated.");
         }
     }
     
