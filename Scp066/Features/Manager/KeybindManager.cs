@@ -12,8 +12,8 @@ public static class KeybindManager
 		var settings = new List<SettingBase>();
             
 		var header = new HeaderSetting(
-			name: "Abilities of SCP-999",
-			hintDescription: "Abilities of SCP-999",
+			name: "Abilities of SCP-066",
+			hintDescription: "Abilities of SCP-066",
 			paddling: true
 		);
             
