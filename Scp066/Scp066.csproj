@@ -24,6 +24,9 @@
         <WarningLevel>4</WarningLevel>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     </PropertyGroup>
+    <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+        <Exec Command="copy /Y $(TargetPath) &quot;%AppData%\EXILED\Plugins\&quot;" />
+    </Target>
     <ItemGroup>
         <Reference Include="0Harmony, Version=2.3.6.0, Culture=neutral, processorArchitecture=MSIL">
           <HintPath>packages\Lib.Harmony.2.3.6\lib\net48\0Harmony.dll</HintPath>
@@ -79,6 +82,7 @@
         <Reference Include="ProjectMER" HintPath="$(SL_REFERENCES)\ProjectMER.dll" />
         <Reference Include="Mirror" HintPath="$(SL_REFERENCES)\Mirror.dll" />
         <Reference Include="AudioPlayerApi" HintPath="$(SL_REFERENCES)\AudioPlayerApi.dll" />
+        <Reference Include="RoleAPI" HintPath="$(SL_REFERENCES)\RoleAPI.dll" />
     </ItemGroup>
     <ItemGroup>
         <Compile Include="Commands\MainCommand.cs" />
@@ -89,19 +93,7 @@
         <Compile Include="Features\Abilities\PlayNoise.cs" />
         <Compile Include="Features\Abilities\PlayNotes.cs" />
         <Compile Include="Features\Abilities\PlayEric.cs" />
-        <Compile Include="Features\Controller\CooldownController.cs" />
-        <Compile Include="Features\Controller\HintController.cs" />
-        <Compile Include="Features\Controller\MovementController.cs" />
-        <Compile Include="Features\Controller\PlayerController.cs" />
-        <Compile Include="Features\Manager\AbilityManager.cs" />
-        <Compile Include="Features\Manager\AudioManager.cs" />
-        <Compile Include="Features\Manager\KeybindManager.cs" />
-        <Compile Include="Features\Manager\SchematicManager.cs" />
-        <Compile Include="Features\Manager\TextToyManager.cs" />
         <Compile Include="Features\Scp066Role.cs" />
-        <Compile Include="Interfaces\Ability.cs" />
-        <Compile Include="Interfaces\IAbility.cs" />
-        <Compile Include="Patches\SchematicMerPatch.cs" />
         <Compile Include="Plugin.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
     </ItemGroup>
@@ -114,14 +106,6 @@
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
     <Import Project="packages\Fody.6.9.2\build\Fody.targets" Condition="Exists('packages\Fody.6.9.2\build\Fody.targets')" />
-    <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-      <PropertyGroup>
-        <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105.The missing file is {0}.</ErrorText>
-      </PropertyGroup>
-      <Error Condition="!Exists('packages\Fody.6.9.2\build\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Fody.6.9.2\build\Fody.targets'))" />
-      <Error Condition="!Exists('packages\Costura.Fody.6.0.0\build\Costura.Fody.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Costura.Fody.6.0.0\build\Costura.Fody.props'))" />
-      <Error Condition="!Exists('packages\Costura.Fody.6.0.0\build\Costura.Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Costura.Fody.6.0.0\build\Costura.Fody.targets'))" />
-    </Target>
     <Import Project="packages\Costura.Fody.6.0.0\build\Costura.Fody.targets" Condition="Exists('packages\Costura.Fody.6.0.0\build\Costura.Fody.targets')" />
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets"/>
 </Project>
