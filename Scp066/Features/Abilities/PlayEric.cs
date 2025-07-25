@@ -1,5 +1,6 @@
 ﻿using Exiled.API.Features;
-using Scp066.Interfaces;
+using RoleAPI.API.Interfaces;
+using RoleAPI.API.Managers;
 using UnityEngine;
 
 namespace Scp066.Features.Abilities;
@@ -10,9 +11,9 @@ public class PlayEric : Ability
     public override int KeyId => 660;
     public override KeyCode KeyCode => KeyCode.Q;
     public override float Cooldown => 10f;
-    protected override void ActivateAbility(Player player, AudioPlayer audioPlayer)
+    protected override void ActivateAbility(Player player, ObjectManager manager)
     {
         int value = Random.Range(0, 3) + 1;
-        audioPlayer?.AddClip($"Eric{value}");
+        manager.AudioPlayer?.AddClip($"Eric{value}");
     }
 }

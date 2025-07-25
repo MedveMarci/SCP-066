@@ -2,28 +2,29 @@
 using Exiled.API.Features;
 using MEC;
 using PlayerStatsSystem;
-using Scp066.Interfaces;
+using RoleAPI.API.Interfaces;
+using RoleAPI.API.Managers;
 using UnityEngine;
 
 namespace Scp066.Features.Abilities;
 public class PlayNoise : Ability
 {
     public override string Name => "\ud83c\udfba Noise";
-    public override string Description => "Plays Beethoven's Symphony No. 2, which kills players near SCP-066";
+    public override string Description => "Plays Symphony, which kills players";
     public override int KeyId => 662;
     public override KeyCode KeyCode => KeyCode.F;
     public override float Cooldown => 40f;
-    protected override void ActivateAbility(Player player, AudioPlayer audioPlayer)
+    protected override void ActivateAbility(Player player, ObjectManager manager)
     {
-        if (audioPlayer is null)
+        if (manager.AudioPlayer is null)
             return;
         
         int value = Random.Range(0, 3) + 1;
-        audioPlayer.AddClip($"Beethoven");
-        Timing.RunCoroutine(CheckEndOfPlayback(player, audioPlayer));
+        manager.AudioPlayer.AddClip($"Beethoven");
+        Timing.RunCoroutine(CheckEndOfPlayback(player, manager));
     }
     
-    private IEnumerator<float> CheckEndOfPlayback(Player scp066, AudioPlayer audioPlayer)
+    private IEnumerator<float> CheckEndOfPlayback(Player scp066, ObjectManager manager)
     {
         float distance = Plugin.Singleton.Config.Distance;
         float damage = Plugin.Singleton.Config.Damage;
@@ -33,7 +34,7 @@ public class PlayNoise : Ability
             yield break;
         
         // While the symphony is running
-        while (audioPlayer.ClipsById.Count > 0)
+        while (manager.AudioPlayer.ClipsById.Count > 0)
         {
             // SCP-066 can break the windows
             if (isBreakableWindows is true)
