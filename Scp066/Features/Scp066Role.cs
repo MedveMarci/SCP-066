@@ -1,35 +1,25 @@
 ﻿using System.Collections.Generic;
-using System.Text;
-using CustomPlayerEffects;
 using Exiled.API.Enums;
-using Exiled.API.Features;
-using Exiled.API.Features.Pools;
 using Exiled.API.Features.Spawn;
-using Exiled.CustomRoles.API.Features;
 using PlayerRoles;
-using Scp066.Features.Controller;
+using RoleAPI.API;
+using RoleAPI.API.Configs;
 using UnityEngine;
 
 namespace Scp066.Features;
-public class Scp066Role : CustomRole
+public class Scp066Role : ExtendedRole
 {
     public override string Name { get; set; } = "SCP-066";
     public override string Description { get; set; } = "Eric's Toy";
     public override string CustomInfo { get; set; } = "SCP-066";
     public override uint Id { get; set; } = 660;
-    public override int MaxHealth { get; set; } = 2000;
+    public override int MaxHealth { get; set; } = 3500;
     public override SpawnProperties SpawnProperties { get; set; } = new()
     {
         Limit = 1,
         DynamicSpawnPoints = [new DynamicSpawnPoint { Chance = 100, Location = SpawnLocationType.Inside173Gate }]
     };
     
-    public override bool KeepPositionOnSpawn { get; set; } = true;
-    public override bool KeepInventoryOnSpawn { get; set; } = false;
-    public override bool RemovalKillsPlayer { get; set; } = true;
-    public override bool KeepRoleOnDeath { get; set; } = false;
-    public override bool IgnoreSpawnSystem { get; set; } = true;
-    public override bool KeepRoleOnChangingRole { get; set; } = false;
     public override RoleTypeId Role { get; set; } = RoleTypeId.Scp0492;
     
     public override Exiled.API.Features.Broadcast Broadcast { get; set; } = new()
@@ -41,57 +31,74 @@ public class Scp066Role : CustomRole
             "Use abilities by clicking on the buttons</color>",
         Duration = 15
     };
-
-    protected override void ShowMessage(Player player) {}
     
     public override string ConsoleMessage { get; set; } =
         "You are SCP-066 - Eric's Toy!\n" +
         "Play sounds to kill humans\n" +
         "Configure your buttons in the settings. Remove the stars.";
-    
-    /// <summary>
-    /// Adding the SCP-066 role to the player
-    /// </summary>
-    /// <param name="player">The player who should become SCP-066</param>
-    public override void AddRole(Player player)
-    {
-	  player.Role.Set(this.Role, SpawnReason.ForceClass, RoleSpawnFlags.All);
-      player.Position = SpawnProperties.DynamicSpawnPoints.RandomItem().Position;
-      
-      player.ClearItems();
-      player.ClearAmmo();
-      player.UniqueRole = this.Name;
-      this.TrackedPlayers.Add(player);
-      player.Health = this.MaxHealth;
-      player.MaxHealth = this.MaxHealth;
-      player.Scale = this.Scale;
-      player.CustomName = this.Name;
-      player.CustomInfo = player.CustomName + "\n" + this.CustomInfo;
-      
-      this.ShowMessage(player);
-      this.ShowBroadcast(player);
-      this.RoleAdded(player);
-      player.SendConsoleMessage(this.ConsoleMessage, "green");
-      
-      player.EnableEffect<Disabled>();
-      player.EnableEffect<Slowness>(intensity: 50);
-      player.EnableEffect<SilentWalk>(intensity: 50);
-      
-      // Register PlayerComponent for player
-      player.GameObject.AddComponent<PlayerController>();
-    }
 
-    /// <summary>
-    /// Remove the role from the player
-    /// </summary>
-    /// <param name="player">A player who should become normal role</param>
-    public override void RemoveRole(Player player)
+    public override SpawnConfig SpawnConfig { get; set; } = new()
     {
-        // Remove a custom role
-        base.RemoveRole(player);
-        player.CustomName = null;
+        MinPlayers = 10,
+        SpawnChance = 50
+    };
+    
+    public override SchematicConfig SchematicConfig { get; set; } = new()
+    {
+        SchematicName = "Scp066",
+        Offset = new Vector3(0f, -1f, 0f),
+    };
+    
+    public override TextToyConfig TextToyConfig { get; set; } = new()
+    {
+        Text = "<color=red>SCP-066</color>",
+        Offset = new Vector3(0, 1, 0),
+        Rotation = new Vector3(0, 180, 0),
+        Scale = new Vector3(0.2f, 0.2f, 0.2f),
+    };
+
+    public override HintConfig HintConfig { get; set; } = new()
+    {
+        Text = "<align=right><size=50><color=red><b>SCP-066</b></color></size>\n" +
+               "<size=30><color=red>Eric's Toy play sounds</color></size>\n\n" + 
+               "Abilities:\n" + 
+               "<color=%color%>\ud83c\udfb5 Eric? {0}</color>\n" + 
+               "<color=%color%>\ud83c\udfb6 Note {1}</color>\n" + 
+               "<color=%color%>\ud83c\udfba Noise {2}</color>\n" + 
+               "\n<size=18>if you cant use abilities\nremove \u2b50 in settings</size></align>",
+        AvailableAbilityColor = "red",
+        UnavailableAbilityColor = "#880000"
+    };
+    
+    public override AudioConfig AudioConfig { get; set; } = new()
+    {
+        Name = "scp066",
+        Volume = 100,
+        IsSpatial = true,
+        MinDistance = 5f,
+        MaxDistance = 15f
+    };
+    
+    public override List<EffectConfig> Effects { get; set; } =
+    [
+        new EffectConfig()
+        {
+            EffectType = EffectType.Disabled,
+        },
+
+        new EffectConfig()
+        {
+            EffectType = EffectType.Slowness,
+            Intensity = 50
+        },
         
-        // Unregister PlayerComponent for player
-        Object.Destroy(player.GameObject.GetComponent<PlayerController>());
-    }
+        new EffectConfig()
+        {
+            EffectType = EffectType.SilentWalk,
+            Intensity = 50
+        }
+    ];
+    
+    public override bool IsPlayerInvisible { get; set; } = true;
+    public override bool IsShowPlayerNickname { get; set; } = true;
 }
