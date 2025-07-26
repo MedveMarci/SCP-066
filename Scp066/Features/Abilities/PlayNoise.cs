@@ -28,6 +28,7 @@ public class PlayNoise : Ability
     {
         float distance = Plugin.Singleton.Config.Distance;
         float damage = Plugin.Singleton.Config.Damage;
+        string damageText = Plugin.Singleton.Config.Scp066RoleConfig.CustomDeathText;
         bool isBreakableWindows = Plugin.Singleton.Config.IsBreakableWindows;
 
         if (distance <= 0)
@@ -67,7 +68,7 @@ public class PlayNoise : Ability
                     }
                     */
                     //player.EnableEffect<CardiacArrest>(0.5f);
-                    player.Hurt(new CustomReasonDamageHandler("Dead by SCP-066", damage));
+                    player.Hurt(new CustomReasonDamageHandler(damageText, damage));
                 }
             }
             

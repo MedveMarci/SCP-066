@@ -37,6 +37,8 @@ public class Scp066Role : ExtendedRole
         "Play sounds to kill humans\n" +
         "Configure your buttons in the settings. Remove the stars.";
 
+    public override string CustomDeathText { get; set; } = "<color=red>The subject expired after exposure to a loud sound by SCP-066</color>";
+    
     public override SpawnConfig SpawnConfig { get; set; } = new()
     {
         MinPlayers = 10,
