@@ -25,12 +25,6 @@ public class GiveCommand : ICommand
             response = $"Player not found: {arguments.At(0)}";
             return false;
         }
-
-        if (player.CustomInfo is not null)
-        {
-            response = "The player already have the custom role";
-            return false;
-        }
         
         var scp066Role = CustomRole.Get(typeof(Scp066Role));
         if (scp066Role == null)
