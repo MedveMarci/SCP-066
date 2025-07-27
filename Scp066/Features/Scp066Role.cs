@@ -62,7 +62,7 @@ public class Scp066Role : ExtendedRole
 
     public override HintConfig HintConfig { get; set; } = new()
     {
-        Text = "<align=right><size=50><color=red><b>SCP-066</b></color></size>\n" +
+        Text = "<align=right><size=50><color=red><b>SCP-066</b></color></size>\n" + 
                "<size=30><color=red>Eric's Toy play sounds</color></size>\n\n" + 
                "Abilities:\n" + 
                "<color=%color%>\ud83c\udfb5 Eric? {0}</color>\n" + 
