@@ -20,8 +20,8 @@
 
 # Installation
 - ``Scp066.dll`` move to => ``~\EXILED\Plugins``
-- ``Schematics.tar.gz`` unzip to => ``~\EXILED\Configs\Plugins\scp066\Schematics``
-- ``Audio.tar.gz`` unzip to => ``~\EXILED\Configs\Plugins\scp066\Audio``
+- ``Audio.tar.gz`` unarchive to => ``~\EXILED\Configs\Plugins\scp066\Audio``
+- ``Schematics.tar.gz`` unarchive to => ``~\LabAPI\configs\ProjectMER\Schematics``
 - Install the [``ProjectMER.dll``](https://github.com/Michal78900/ProjectMER/releases/latest) to => ``~\LabAPI\plugins\global``
 
 # Commands
