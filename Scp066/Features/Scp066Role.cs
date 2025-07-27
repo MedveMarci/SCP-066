@@ -4,6 +4,7 @@ using Exiled.API.Features.Spawn;
 using PlayerRoles;
 using RoleAPI.API;
 using RoleAPI.API.Configs;
+using Scp066.Features.Abilities;
 using UnityEngine;
 
 namespace Scp066.Features;
@@ -80,7 +81,17 @@ public class Scp066Role : ExtendedRole
         MinDistance = 5f,
         MaxDistance = 15f
     };
-    
+
+    public override AbilityConfig AbilityConfig { get; set; } = new()
+    {
+        AbilityTypes = 
+        [
+            typeof(PlayEric),
+            typeof(PlayNotes),
+            typeof(PlayNoise)
+        ]
+    };
+
     public override List<EffectConfig> Effects { get; set; } =
     [
         new EffectConfig()
