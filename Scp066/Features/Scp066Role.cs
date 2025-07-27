@@ -40,6 +40,8 @@ public class Scp066Role : ExtendedRole
 
     public override string CustomDeathText { get; set; } = "<color=red>The subject expired after exposure to a loud sound by SCP-066</color>";
     
+    public override string CassieDeathAnnouncement { get; set; } = "SCP-066 contained successfully.";
+    
     public override SpawnConfig SpawnConfig { get; set; } = new()
     {
         MinPlayers = 10,
