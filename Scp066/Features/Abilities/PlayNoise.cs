@@ -19,7 +19,6 @@ public class PlayNoise : Ability
         if (manager.AudioPlayer is null)
             return;
         
-        int value = Random.Range(0, 3) + 1;
         manager.AudioPlayer.AddClip($"Beethoven");
         Timing.RunCoroutine(CheckEndOfPlayback(player, manager));
     }
@@ -33,6 +32,9 @@ public class PlayNoise : Ability
 
         if (distance <= 0)
             yield break;
+
+        // The sound check may not work immediately
+        yield return Timing.WaitForSeconds(0.5f);
         
         // While the symphony is running
         while (manager.AudioPlayer.ClipsById.Count > 0)
@@ -55,19 +57,14 @@ public class PlayNoise : Ability
                 if (player == scp066)
                     continue;
 
+                if (player.IsDead)
+                    continue;
+                
                 if (player.IsScp)
                     continue;
                 
                 if (Vector3.Distance(scp066.Position, player.Position) <= distance)
                 {
-                    /*// idk it works?
-                    if (player.TryGetEffect(out CardiacArrest effect))
-                    {
-                        effect._attacker = scp066.Footprint;
-                        effect._duration += 0.5f;
-                    }
-                    */
-                    //player.EnableEffect<CardiacArrest>(0.5f);
                     player.Hurt(new CustomReasonDamageHandler(damageText, damage));
                 }
             }
