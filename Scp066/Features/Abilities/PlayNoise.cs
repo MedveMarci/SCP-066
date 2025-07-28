@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Exiled.API.Features;
 using MEC;
 using PlayerStatsSystem;
@@ -19,7 +20,7 @@ public class PlayNoise : Ability
         if (manager.AudioPlayer is null)
             return;
         
-        manager.AudioPlayer.AddClip($"Beethoven");
+        manager.AudioPlayer.AddClip("Beethoven");
         Timing.RunCoroutine(CheckEndOfPlayback(player, manager));
     }
     
@@ -30,14 +31,27 @@ public class PlayNoise : Ability
         string damageText = Plugin.Singleton.Config.Scp066RoleConfig.CustomDeathText;
         bool isBreakableWindows = Plugin.Singleton.Config.IsBreakableWindows;
 
-        if (distance <= 0)
+        if (distance <= 0 || damage <= 0)
             yield break;
 
-        // The sound check may not work immediately
-        yield return Timing.WaitForSeconds(0.5f);
+        float maxWaitForStart = 2f;
+        float waited = 0f;
+        
+        // This is a test cycle in case the sound doesn't work.
+        while (manager.AudioPlayer.ClipsById.Values.Any(clip => clip.Clip != "Beethoven"))
+        {
+            if (waited > maxWaitForStart)
+            {
+                yield break;
+            }
+            
+            yield return Timing.WaitForSeconds(0.1f);
+            waited += 0.1f;
+        }
+        
         
         // While the symphony is running
-        while (manager.AudioPlayer.ClipsById.Count > 0)
+        while (manager.AudioPlayer.ClipsById.Values.Any(clip => clip.Clip == "Beethoven"))
         {
             // SCP-066 can break the windows
             if (isBreakableWindows is true)
@@ -54,13 +68,7 @@ public class PlayNoise : Ability
             // Deal damage to players near SCP-066
             foreach (Player player in Player.List)
             {
-                if (player == scp066)
-                    continue;
-
-                if (player.IsDead)
-                    continue;
-                
-                if (player.IsScp)
+                if (player == scp066 || player.IsDead || player.IsScp)
                     continue;
                 
                 if (Vector3.Distance(scp066.Position, player.Position) <= distance)
@@ -69,7 +77,7 @@ public class PlayNoise : Ability
                 }
             }
             
-            yield return Timing.WaitForSeconds(0.5f);
+            yield return Timing.WaitForSeconds(0.1f);
         }
     }
 }
