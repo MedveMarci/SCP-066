@@ -15,13 +15,14 @@ public class PlayNoise : Ability
     public override int KeyId => 662;
     public override KeyCode KeyCode => KeyCode.F;
     public override float Cooldown => 40f;
-    protected override void ActivateAbility(Player player, ObjectManager manager)
+    protected override bool ActivateAbility(Player player, ObjectManager manager)
     {
         if (manager.AudioPlayer is null)
-            return;
+            return false;
         
         manager.AudioPlayer.AddClip("Beethoven");
         Timing.RunCoroutine(CheckEndOfPlayback(player, manager));
+        return true;
     }
     
     private IEnumerator<float> CheckEndOfPlayback(Player scp066, ObjectManager manager)
