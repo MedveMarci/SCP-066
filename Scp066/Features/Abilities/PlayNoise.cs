@@ -21,6 +21,11 @@ public class PlayNoise : Ability
         if (manager.AudioPlayer is null)
             return;
         
+        if (!AudioClipStorage.AudioClips.ContainsKey("Beethoven"))
+        {
+            LogManager.Error("[Scp066] The audio file 'Beethoven.ogg' was not found for playback. Please ensure the file is placed in the correct directory.");
+            return;
+        }
         manager.AudioPlayer.AddClip("Beethoven", 0.5f);
         Timing.RunCoroutine(CheckEndOfPlayback(player, manager));
     }

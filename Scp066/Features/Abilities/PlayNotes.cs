@@ -14,6 +14,7 @@ public class PlayNotes : Ability
     protected override void ActivateAbility(Player player, ObjectManager manager)
     {
         var value = Random.Range(0, 6) + 1;
-        manager.AudioPlayer?.AddClip($"Notes{value}");
+        if (AudioClipStorage.AudioClips.ContainsKey($"Notes{value}")) 
+            manager.AudioPlayer?.AddClip($"Notes{value}");
     }
 }

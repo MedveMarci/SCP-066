@@ -14,6 +14,7 @@ public class PlayEric : Ability
     protected override void ActivateAbility(Player player, ObjectManager manager)
     {
         var value = Random.Range(0, 3) + 1;
-        manager.AudioPlayer?.AddClip($"Eric{value}");
+        if (AudioClipStorage.AudioClips.ContainsKey($"Eric{value}"))
+            manager.AudioPlayer?.AddClip($"Eric{value}");
     }
 }
