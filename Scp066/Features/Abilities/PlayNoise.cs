@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Exiled.API.Features;
+using LabApi.Features.Wrappers;
 using MEC;
+using PlayerRoles;
 using PlayerStatsSystem;
 using RoleAPI.API.Interfaces;
 using RoleAPI.API.Managers;
@@ -15,28 +16,27 @@ public class PlayNoise : Ability
     public override int KeyId => 662;
     public override KeyCode KeyCode => KeyCode.F;
     public override float Cooldown => 40f;
-    protected override bool ActivateAbility(Player player, ObjectManager manager)
+    protected override void ActivateAbility(Player player, ObjectManager manager)
     {
         if (manager.AudioPlayer is null)
-            return false;
+            return;
         
-        manager.AudioPlayer.AddClip("Beethoven");
+        manager.AudioPlayer.AddClip("Beethoven", 0.5f);
         Timing.RunCoroutine(CheckEndOfPlayback(player, manager));
-        return true;
     }
     
-    private IEnumerator<float> CheckEndOfPlayback(Player scp066, ObjectManager manager)
+    private static IEnumerator<float> CheckEndOfPlayback(Player scp066, ObjectManager manager)
     {
-        float distance = Plugin.Singleton.Config.Distance;
-        float damage = Plugin.Singleton.Config.Damage;
-        string damageText = Plugin.Singleton.Config.Scp066RoleConfig.CustomDeathText;
-        bool isBreakableWindows = Plugin.Singleton.Config.IsBreakableWindows;
+        if (Scp066.Instance.Config == null) yield break;
+        var distance = Scp066.Instance.Config.Scp066Role.AudioConfig.MaxDistance;
+        var damage = Scp066.Instance.Config.Damage;
+        var damageText = Scp066.Instance.Config.CustomDeathText;
 
         if (distance <= 0 || damage <= 0)
             yield break;
 
-        float maxWaitForStart = 2f;
-        float waited = 0f;
+        const float maxWaitForStart = 2f;
+        var waited = 0f;
         
         // This is a test cycle in case the sound doesn't work.
         while (manager.AudioPlayer.ClipsById.Values.Any(clip => clip.Clip != "Beethoven"))
@@ -54,31 +54,13 @@ public class PlayNoise : Ability
         // While the symphony is running
         while (manager.AudioPlayer.ClipsById.Values.Any(clip => clip.Clip == "Beethoven"))
         {
-            // SCP-066 can break the windows
-            if (isBreakableWindows is true)
-            {
-                foreach (var window in Window.List)
-                {
-                    if (Vector3.Distance(scp066.Position, window.Position) <= distance && !window.IsBroken)
-                    {
-                        window.BreakWindow();
-                    }
-                }
-            }
-            
             // Deal damage to players near SCP-066
-            foreach (Player player in Player.List)
+            foreach (var player in Player.ReadyList.Where(player => Vector3.Distance(scp066.Position, player.Position) <= distance && !player.IsSCP && player.IsAlive && player.Team != Team.OtherAlive))
             {
-                if (player == scp066 || player.IsDead || player.IsScp)
-                    continue;
-                
-                if (Vector3.Distance(scp066.Position, player.Position) <= distance)
-                {
-                    player.Hurt(new CustomReasonDamageHandler(damageText, damage));
-                }
+                player.Damage(new CustomReasonDamageHandler(damageText, damage));
             }
             
-            yield return Timing.WaitForSeconds(0.1f);
+            yield return Timing.WaitForSeconds(0.5f);
         }
     }
 }

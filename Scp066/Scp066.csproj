@@ -1,98 +1,64 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
+
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-    <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+    <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props"
+            Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')"/>
     <PropertyGroup>
-        <Configuration Condition=" '$(Configuration)' == '' ">Release</Configuration>
+        <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
         <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-        <ProjectGuid>{22CFB58B-15A4-4EF1-9BB9-25ADCCA6DE36}</ProjectGuid>
+        <ProjectGuid>{3ABF5504-A3CD-45ED-81C9-F7AFC9678651}</ProjectGuid>
         <OutputType>Library</OutputType>
         <AppDesignerFolder>Properties</AppDesignerFolder>
         <RootNamespace>Scp066</RootNamespace>
         <AssemblyName>Scp066</AssemblyName>
         <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
         <FileAlignment>512</FileAlignment>
-        <LangVersion>12</LangVersion>
+        <LangVersion>latest</LangVersion>
     </PropertyGroup>
-    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-        <PlatformTarget>AnyCPU</PlatformTarget>
-        <DebugType>pdbonly</DebugType>
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'LabApi|x64' ">
+        <DebugType>embedded</DebugType>
         <Optimize>true</Optimize>
-        <OutputPath>bin\Release\</OutputPath>
         <DefineConstants>TRACE</DefineConstants>
         <ErrorReport>prompt</ErrorReport>
         <WarningLevel>4</WarningLevel>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <DebugSymbols>true</DebugSymbols>
+        <OutputPath>bin\x64\LabApi\</OutputPath>
+        <PlatformTarget>x64</PlatformTarget>
     </PropertyGroup>
     <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-        <Exec Command="copy /Y $(TargetPath) &quot;%AppData%\EXILED\Plugins\&quot;" />
+        <Exec Command="copy /Y $(TargetPath) &quot;$(LABAPI_PLUGINS)\&quot;"/>
     </Target>
     <ItemGroup>
-        <Reference Include="0Harmony, Version=2.3.6.0, Culture=neutral, processorArchitecture=MSIL">
-          <HintPath>packages\Lib.Harmony.2.3.6\lib\net48\0Harmony.dll</HintPath>
-        </Reference>
-        <Reference Include="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-          <HintPath>packages\ExMod.Exiled.9.6.1\lib\net48\Assembly-CSharp-Publicized.dll</HintPath>
-        </Reference>
-        <Reference Include="CommandSystem.Core, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-          <HintPath>packages\ExMod.Exiled.9.6.1\lib\net48\CommandSystem.Core.dll</HintPath>
-        </Reference>
-        <Reference Include="Costura, Version=6.0.0.0, Culture=neutral, PublicKeyToken=9919ef960d84173d, processorArchitecture=MSIL">
-          <HintPath>packages\Costura.Fody.6.0.0\lib\netstandard2.0\Costura.dll</HintPath>
-        </Reference>
-        <Reference Include="Exiled.API, Version=9.6.1.0, Culture=neutral, processorArchitecture=Amd64">
-          <HintPath>packages\ExMod.Exiled.9.6.1\lib\net48\Exiled.API.dll</HintPath>
-        </Reference>
-        <Reference Include="Exiled.CreditTags, Version=9.6.1.0, Culture=neutral, processorArchitecture=Amd64">
-          <HintPath>packages\ExMod.Exiled.9.6.1\lib\net48\Exiled.CreditTags.dll</HintPath>
-        </Reference>
-        <Reference Include="Exiled.CustomItems, Version=9.6.1.0, Culture=neutral, processorArchitecture=Amd64">
-          <HintPath>packages\ExMod.Exiled.9.6.1\lib\net48\Exiled.CustomItems.dll</HintPath>
-        </Reference>
-        <Reference Include="Exiled.CustomRoles, Version=9.6.1.0, Culture=neutral, processorArchitecture=Amd64">
-          <HintPath>packages\ExMod.Exiled.9.6.1\lib\net48\Exiled.CustomRoles.dll</HintPath>
-        </Reference>
-        <Reference Include="Exiled.Events, Version=9.6.1.0, Culture=neutral, processorArchitecture=Amd64">
-          <HintPath>packages\ExMod.Exiled.9.6.1\lib\net48\Exiled.Events.dll</HintPath>
-        </Reference>
-        <Reference Include="Exiled.Loader, Version=9.6.1.0, Culture=neutral, processorArchitecture=Amd64">
-          <HintPath>packages\ExMod.Exiled.9.6.1\lib\net48\Exiled.Loader.dll</HintPath>
-        </Reference>
-        <Reference Include="Exiled.Permissions, Version=9.6.1.0, Culture=neutral, processorArchitecture=Amd64">
-          <HintPath>packages\ExMod.Exiled.9.6.1\lib\net48\Exiled.Permissions.dll</HintPath>
-        </Reference>
-        <Reference Include="LabApi, Version=1.1.0.0, Culture=neutral, processorArchitecture=Amd64">
-          <HintPath>packages\ExMod.Exiled.9.6.1\lib\net48\LabApi.dll</HintPath>
-        </Reference>
-        <Reference Include="NorthwoodLib, Version=1.4.0.0, Culture=neutral, processorArchitecture=MSIL">
-          <HintPath>packages\ExMod.Exiled.9.6.1\lib\net48\NorthwoodLib.dll</HintPath>
-        </Reference>
-        <Reference Include="YamlDotNet, Version=11.0.0.0, Culture=neutral, PublicKeyToken=ec19458f3c15af5e, processorArchitecture=MSIL">
-            <HintPath>packages\ExMod.Exiled.9.6.1\lib\net48\YamlDotNet.dll</HintPath>
-        </Reference>
-        <Reference Include="System" />
-        <Reference Include="Assembly-CSharp-firstpass" HintPath="$(SL_REFERENCES)\Assembly-CSharp-firstpass.dll" />
-        <Reference Include="Mirror" HintPath="$(SL_REFERENCES)\Mirror.dll" />
-        <Reference Include="UnityEngine" HintPath="$(SL_REFERENCES)\UnityEngine.dll" />
-        <Reference Include="UnityEngine.AnimationModule" HintPath="$(SL_REFERENCES)\UnityEngine.AnimationModule.dll" />
-        <Reference Include="UnityEngine.CoreModule" HintPath="$(SL_REFERENCES)\UnityEngine.CoreModule.dll" />
-        <Reference Include="UnityEngine.PhysicsModule" HintPath="$(SL_REFERENCES)\UnityEngine.PhysicsModule.dll" />
-        <Reference Include="ProjectMER" HintPath="$(SL_REFERENCES)\ProjectMER.dll" />
-        <Reference Include="AudioPlayerApi" HintPath="$(SL_REFERENCES)\AudioPlayerApi.dll" />
-        <Reference Include="YamlDotNet" HintPath="$(SL_REFERENCES)\YamlDotNet.dll" />
-        <Reference Include="RoleAPI" HintPath="$(SL_REFERENCES)\RoleAPI.dll" />
+        <Reference Include="Assembly-CSharp-firstpass" HintPath="$(SL_REFERENCES)\Assembly-CSharp-firstpass.dll"/>
+        <Reference Include="Assembly-CSharp" HintPath="$(SL_REFERENCES)\Assembly-CSharp-Publicized.dll"/>
+        <Reference Include="CommandSystem.Core" HintPath="$(SL_REFERENCES)\CommandSystem.Core.dll"/>
+        <Reference Include="LabApi" HintPath="$(SL_REFERENCES)\LabApi.dll"/>
+        <Reference Include="UncomplicatedCustomRoles" HintPath="$(LABAPI_PLUGINS)\UncomplicatedCustomRoles-LabAPI.dll"/>
+        <Reference Include="UnityEngine" HintPath="$(SL_REFERENCES)\UnityEngine.dll"/>
+        <Reference Include="UnityEngine.AnimationModule" HintPath="$(SL_REFERENCES)\UnityEngine.AnimationModule.dll"/>
+        <Reference Include="UnityEngine.CoreModule" HintPath="$(SL_REFERENCES)\UnityEngine.CoreModule.dll"/>
+        <Reference Include="UnityEngine.PhysicsModule" HintPath="$(SL_REFERENCES)\UnityEngine.PhysicsModule.dll"/>
+        <Reference Include="ProjectMER" HintPath="$(LABAPI_PLUGINS)\ProjectMER.dll"/>
+        <Reference Include="Mirror" HintPath="$(SL_REFERENCES)\Mirror.dll"/>
+        <Reference Include="AudioPlayerApi" HintPath="$(LABAPI_DEPENDENCIES)\AudioPlayerApi.dll"/>
+        <Reference Include="YamlDotNet" HintPath="$(SL_REFERENCES)\YamlDotNet.dll"/>
+        <Reference Include="RoleAPI" HintPath="$(LABAPI_DEPENDENCIES)\RoleAPI.dll"/>
+        <Reference Include="ScpProximityChat.Core" HintPath="$(labapi_plugins)\ScpProximityChat.Core.dll" />
     </ItemGroup>
     <ItemGroup>
-        <Compile Include="Commands\MainCommand.cs" />
-        <Compile Include="Commands\Subcommands\GiveCommand.cs" />
-        <Compile Include="Commands\Subcommands\RemoveCommand.cs" />
-        <Compile Include="Configs\Config.cs" />
+        <Compile Include="Config.cs" />
         <Compile Include="EventHandler.cs" />
+        <Compile Include="Features\Abilities\PlayEric.cs" />
         <Compile Include="Features\Abilities\PlayNoise.cs" />
         <Compile Include="Features\Abilities\PlayNotes.cs" />
-        <Compile Include="Features\Abilities\PlayEric.cs" />
         <Compile Include="Features\Scp066Role.cs" />
-        <Compile Include="Plugin.cs" />
-        <Compile Include="Properties\AssemblyInfo.cs" />
+        <Compile Include="Plugin.cs"/>
+        <Compile Include="Properties\AssemblyInfo.cs"/>
+        <Reference Include="System"/>
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="FodyWeavers.xml" />
     </ItemGroup>
     <ItemGroup>
       <None Include="App.config" />

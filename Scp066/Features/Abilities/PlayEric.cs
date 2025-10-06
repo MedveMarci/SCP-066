@@ -1,4 +1,4 @@
-﻿using Exiled.API.Features;
+﻿using LabApi.Features.Wrappers;
 using RoleAPI.API.Interfaces;
 using RoleAPI.API.Managers;
 using UnityEngine;
@@ -11,10 +11,9 @@ public class PlayEric : Ability
     public override int KeyId => 660;
     public override KeyCode KeyCode => KeyCode.Q;
     public override float Cooldown => 10f;
-    protected override bool ActivateAbility(Player player, ObjectManager manager)
+    protected override void ActivateAbility(Player player, ObjectManager manager)
     {
-        int value = Random.Range(0, 3) + 1;
+        var value = Random.Range(0, 3) + 1;
         manager.AudioPlayer?.AddClip($"Eric{value}");
-        return true;
     }
 }

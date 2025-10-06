@@ -1,0 +1,10 @@
+﻿using Scp066.Features;
+
+namespace Scp066;
+
+public class Config
+{
+    public float Damage { get; set; } = 8f;
+    public string CustomDeathText { get; set; } = "<color=red>The subject expired after exposure to a loud sound by SCP-066</color>";
+    public Scp066Role Scp066Role { get; set; } = new();
+}

@@ -1,65 +1,99 @@
 ﻿using System.Collections.Generic;
-using Exiled.API.Enums;
-using Exiled.API.Features.Spawn;
 using PlayerRoles;
 using RoleAPI.API;
 using RoleAPI.API.Configs;
 using Scp066.Features.Abilities;
+using UncomplicatedCustomRoles.API.Enums;
+using UncomplicatedCustomRoles.API.Features;
+using UncomplicatedCustomRoles.API.Features.Behaviour;
+using UncomplicatedCustomRoles.API.Features.CustomModules;
+using UncomplicatedCustomRoles.Manager;
 using UnityEngine;
 
 namespace Scp066.Features;
+
 public class Scp066Role : ExtendedRole
 {
+    public override int Id { get; set; } = 066;
     public override string Name { get; set; } = "SCP-066";
-    public override string Description { get; set; } = "Eric's Toy";
-    public override string CustomInfo { get; set; } = "SCP-066";
-    public override uint Id { get; set; } = 660;
-    public override int MaxHealth { get; set; } = 3500;
-    public override SpawnProperties SpawnProperties { get; set; } = new()
-    {
-        Limit = 1,
-        DynamicSpawnPoints = [new DynamicSpawnPoint { Chance = 100, Location = SpawnLocationType.Inside173Gate }]
-    };
-    
+    public override bool OverrideRoleName { get; set; } = true;
+    public override string Nickname { get; set; } = null;
+    public override string CustomInfo { get; set; } = "";
+    public override string BadgeName { get; set; } = "";
+    public override string BadgeColor { get; set; } = "";
+    public override string SpawnHint { get; set; } = "";
     public override RoleTypeId Role { get; set; } = RoleTypeId.Scp0492;
-    
-    public override Exiled.API.Features.Broadcast Broadcast { get; set; } = new()
-    {
-        Show = true,
-        Content = 
-            "<color=red>\ud83c\udfb5 You are SCP-066 - Eric's Toy \ud83c\udfb5\n" +
-            "Play sounds to kill humans\n" +
-            "Use abilities by clicking on the buttons</color>",
-        Duration = 15
-    };
-    
-    public override string ConsoleMessage { get; set; } =
-        "You are SCP-066 - Eric's Toy!\n" +
-        "Play sounds to kill humans\n" +
-        "Configure your buttons in the settings. Remove the stars.";
+    public override RoleTypeId RoleAppearance { get; set; } = RoleTypeId.Scp0492;
+    public override List<Team> IsFriendOf { get; set; } = [];
 
-    public override string CustomDeathText { get; set; } = "<color=red>The subject expired after exposure to a loud sound by SCP-066</color>";
-    
-    public override string CassieDeathAnnouncement { get; set; } = "SCP-066 contained successfully.";
-    
-    public override SpawnConfig SpawnConfig { get; set; } = new()
+    public override HealthBehaviour Health { get; set; } = new()
     {
-        MinPlayers = 10,
-        SpawnChance = 50
+        Amount = 2500,
+        Maximum = 2500
     };
-    
+
+    public override HumeShieldBehaviour HumeShield { get; set; } = new()
+    {
+        Amount = 1000,
+        Maximum = 1000
+    };
+
+    public override List<Effect> Effects { get; set; } =
+    [
+        new()
+        {
+            EffectType = "Fade",
+            Duration = -1,
+            Intensity = 255,
+            Removable = false
+        },
+        new()
+        {
+            EffectType = "Slowness",
+            Duration = -1,
+            Intensity = 25,
+            Removable = false
+        },
+        new()
+        {
+            EffectType = "SilentWalk",
+            Duration = -1,
+            Intensity = 50,
+            Removable = false
+        }
+    ];
+
+    public override bool CanEscape { get; set; } = false;
+
+    public override string SpawnBroadcast { get; set; } =
+        "<color=red>\ud83c\udfb5 You are SCP-066 - Eric's Toy \ud83c\udfb5\n" +
+        "Play sounds to kill humans\n" +
+        "Use abilities by clicking on the buttons</color>";
+
+    public override ushort SpawnBroadcastDuration { get; set; } = 15;
+    public override List<ItemType> Inventory { get; set; } = [];
+    public override Dictionary<ItemType, ushort> Ammo { get; set; } = [];
+    public override float DamageMultiplier { get; set; } = 0;
+
+    public override SpawnBehaviour SpawnSettings { get; set; } = new()
+    {
+        CanReplaceRoles =
+        [
+            RoleTypeId.Scp049, RoleTypeId.Scp079, RoleTypeId.Scp096, RoleTypeId.Scp106, RoleTypeId.Scp173,
+            RoleTypeId.Scp939
+        ],
+        MinPlayers = 5,
+        MaxPlayers = 1,
+        SpawnChance = 10,
+        Spawn = SpawnType.RoleSpawn,
+        SpawnRoles = [RoleTypeId.Scp173]
+    };
+
     public override SchematicConfig SchematicConfig { get; set; } = new()
     {
         SchematicName = "Scp066",
         Offset = new Vector3(0f, -1f, 0f),
-    };
-    
-    public override TextToyConfig TextToyConfig { get; set; } = new()
-    {
-        Text = "<color=red>SCP-066</color>",
-        Offset = new Vector3(0, 1, 0),
-        Rotation = new Vector3(0, 180, 0),
-        Scale = new Vector3(0.2f, 0.2f, 0.2f),
+        Rotation = new Vector3(0f, 90f, 0f)
     };
 
     public override HintConfig HintConfig { get; set; } = new()
@@ -74,19 +108,19 @@ public class Scp066Role : ExtendedRole
         AvailableAbilityColor = "red",
         UnavailableAbilityColor = "#880000"
     };
-    
+
     public override AudioConfig AudioConfig { get; set; } = new()
     {
         Name = "scp066",
         Volume = 100,
         IsSpatial = true,
         MinDistance = 5f,
-        MaxDistance = 15f
+        MaxDistance = 5f
     };
 
     public override AbilityConfig AbilityConfig { get; set; } = new()
     {
-        AbilityTypes = 
+        AbilityTypes =
         [
             typeof(PlayEric),
             typeof(PlayNotes),
@@ -94,26 +128,13 @@ public class Scp066Role : ExtendedRole
         ]
     };
 
-    public override List<EffectConfig> Effects { get; set; } =
-    [
-        new EffectConfig()
-        {
-            EffectType = EffectType.Disabled,
-        },
-
-        new EffectConfig()
-        {
-            EffectType = EffectType.Slowness,
-            Intensity = 50
-        },
-        
-        new EffectConfig()
-        {
-            EffectType = EffectType.SilentWalk,
-            Intensity = 50
-        }
-    ];
+    public override void OnSpawned(SummonedCustomRole role)
+    {
+        role.AddModule(
+            typeof(CustomScpAnnouncer),
+            new Dictionary<string, object> { { "name", "SCP066" } }
+        );
+        base.OnSpawned(role);
+    }
     
-    public override bool IsPlayerInvisible { get; set; } = true;
-    public override bool IsShowPlayerNickname { get; set; } = true;
 }

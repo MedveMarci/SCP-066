@@ -1,30 +1,42 @@
 ﻿using System;
-using Exiled.API.Features;
-using Exiled.CustomRoles.API;
-using Scp066.Configs;
+using LabApi.Features;
+using LabApi.Loader.Features.Plugins;
+using RoleAPI;
+using Scp066.Features;
 
 namespace Scp066;
-public class Plugin : Plugin<Config>
+
+public class Scp066 : Plugin<Config>
 {
     public override string Name => "Scp066";
-    public override string Author => "RisottoMan";
-    public override Version Version => new(1, 4, 0);
-    public override Version RequiredExiledVersion => new(9, 6, 0);
-    
-    public static Plugin Singleton;
-    public override void OnEnabled()
+
+    public override string Description => "Adds SCP-066, the noise maker, as a custom role with unique abilities and features.";
+
+    public override string Author => "MedveMarci";
+    public override Version Version => new(1, 0, 0);
+    public override Version RequiredApiVersion { get; } = new(LabApiProperties.CompiledVersion);
+    public static Scp066 Instance { get; private set; }
+    private Scp066Role Role { get; set; }
+
+    public override void Enable()
     {
-        Singleton = this;
-        
-        // Setup the RoleAPI
-        if (!RoleAPI.Startup.SetupAPI(this.Name))
-            return;
-        
-        // Register the custom role
-        Config.Scp066RoleConfig.Register();
-        
-        new EventHandler();
-        
-        base.OnEnabled();
+        Instance = this;
+        Startup.SetupAPI(Name);
+        Startup.RegisterCustomRole(Role);
+        LabApi.Events.Handlers.Scp0492Events.StartingConsumingCorpse += EventHandler.OnStartingConsumingCorpse;
     }
+    
+    public override void LoadConfigs()
+    {
+        base.LoadConfigs();
+        Role = Config.Scp066Role;
+    }
+
+    public override void Disable()
+    {
+        Instance = null;
+        Startup.UnRegisterCustomRole(Role);
+        LabApi.Events.Handlers.Scp0492Events.StartingConsumingCorpse -= EventHandler.OnStartingConsumingCorpse;
+    }
+    
 }
