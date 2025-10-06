@@ -14,7 +14,11 @@ public class PlayEric : Ability
     protected override void ActivateAbility(Player player, ObjectManager manager)
     {
         var value = Random.Range(0, 3) + 1;
-        if (AudioClipStorage.AudioClips.ContainsKey($"Eric{value}"))
-            manager.AudioPlayer?.AddClip($"Eric{value}");
+        if (!AudioClipStorage.AudioClips.ContainsKey($"Eric{value}"))
+        {
+            LogManager.Error($"[Scp066] The audio file 'Eric{value}.ogg' was not found for playback. Please ensure the file is placed in the correct directory.");
+            return;
+        }
+        manager.AudioPlayer?.AddClip($"Eric{value}");
     }
 }

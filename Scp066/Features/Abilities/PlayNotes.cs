@@ -14,7 +14,11 @@ public class PlayNotes : Ability
     protected override void ActivateAbility(Player player, ObjectManager manager)
     {
         var value = Random.Range(0, 6) + 1;
-        if (AudioClipStorage.AudioClips.ContainsKey($"Notes{value}")) 
-            manager.AudioPlayer?.AddClip($"Notes{value}");
+        if (!AudioClipStorage.AudioClips.ContainsKey($"Notes{value}"))
+        {
+            LogManager.Error($"[Scp066] The audio file 'Notes{value}.ogg' was not found for playback. Please ensure the file is placed in the correct directory.");
+            return;
+        }
+        manager.AudioPlayer.AddClip($"Notes{value}");
     }
 }
