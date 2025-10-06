@@ -26,9 +26,9 @@
 - Install the [``ProjectMER.dll``](https://github.com/Michal78900/ProjectMER/releases/latest) to => ``~\LabAPI\plugins\global``
 
 # Commands
-- Give permission ``.scp066`` to your role in ``~\LabAPI/configs/permissions.yml``
-- Use ``scp066 give [id]`` to give scp066 to specific player
-- Use ``scp066 remove [id]`` to remove scp066, if the player has SCP-066 role
+- Give permission ``ucr.*`` to your role in ``~/LabAPI/configs/permissions.yml``
+- Use ``ucr give [id] 66`` to give scp066 to specific player
+- If you want to remove, just simply set the player to a different role.
 
 # Credits
  ![img](https://img.shields.io/github/downloads/MedveMarci/SCP-066/total.svg)
