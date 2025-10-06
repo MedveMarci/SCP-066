@@ -14,7 +14,7 @@ namespace Scp066;
 public class Scp066 : Plugin<Config>
 {
     private const bool PreRelease = false;
-    public override string Name => "SCP-066";
+    public override string Name => "Scp066";
     public override string Description => "Adds SCP-066, the noise maker, as a custom role with unique abilities and features.";
     public override string Author => "MedveMarci";
     public override Version Version => new(1, 0, 0);
