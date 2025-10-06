@@ -28,6 +28,7 @@ public class Scp066 : Plugin<Config>
         Startup.SetupAPI(Name);
         Startup.RegisterCustomRole(Role);
         LabApi.Events.Handlers.Scp0492Events.StartingConsumingCorpse += EventHandler.OnStartingConsumingCorpse;
+        _ = CheckForUpdatesAsync(Version);
     }
     
     public override void LoadConfigs()
