@@ -16,7 +16,7 @@ public class Scp066 : Plugin<Config>
     private const bool PreRelease = false;
     public override string Name => "Scp066";
     public override string Description => "Adds SCP-066, the noise maker, as a custom role with unique abilities and features.";
-    public override string Author => "MedveMarci";
+    public override string Author => "RisottoMan, LabApi version: MedveMarci";
     public override Version Version => new(1, 0, 0);
     public override Version RequiredApiVersion { get; } = new(LabApiProperties.CompiledVersion);
     public static Scp066 Instance { get; private set; }

@@ -1,5 +1,6 @@
-# ⚠️ This version supports only LabAPI and you need the latest [UncomplicatedCustomRoles](https://github.com/UncomplicatedCustomServer/UncomplicatedCustomRoles)⚠️
-<h1 align="center"> SCP-066 - "Eric's Toy"</h1>
+<h1 align="center">⚠️ This version supports only LabAPI and you need the latest <a href="https://github.com/UncomplicatedCustomServer/UncomplicatedCustomRoles">UncomplicatedCustomRoles</a> ⚠️</h1>
+<h1 align="center">SCP-066 - "Eric's Toy"</h1>
+
 <h2 align="center"> 🧣 Adds an amorphous mass of braided yarn and ribbon monster to the game 🧣</h2>
 <p align="center">
   <img src="https://github.com/MedveMarci/SCP-066/blob/main/Photos/Main.png" alt="SCP-066 - `Eric's Toy`">
