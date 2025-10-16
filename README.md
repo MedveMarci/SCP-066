@@ -33,7 +33,7 @@
 - If you want to remove, just simply set the player to a different role.
 
 # Credits
- ![img](https://img.shields.io/github/downloads/MedveMarci/SCP-066/total.svg)
+ ![img](https://img.shields.io/github/downloads/MedveMarci/SCP-066/total.svg) <a href="https://github.com/KenleyundLeon/DeltaPatch"><img src="https://image2url.com/images/1759565889245-ff2e02c2-1f19-4f72-bc06-43a3b77fb4bd.png"></a>
 - The [main plugin](https://github.com/RisottoMan/SCP-066) created by ``RisottoMan``
 - LabAPI support by ``MedveMarci``
 - Thanks ``PaЯRoT`` for the creating model and for publishing in KO-FI
