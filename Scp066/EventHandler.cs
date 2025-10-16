@@ -11,4 +11,10 @@ public class EventHandler : CustomEventsHandler
        if (ev.Player.TryGetSummonedInstance(out var role) && role.Role.Id == 066)
            ev.IsAllowed = false;
     }
+    
+    public override void OnServerWaitingForPlayers()
+    {
+        _ = Scp066.CheckForUpdatesAsync(Scp066.Instance.Version);
+        base.OnServerWaitingForPlayers();
+    }
 }
