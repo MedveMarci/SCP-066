@@ -24,6 +24,7 @@
 - ``Scp066.dll`` move to => ``~\LabAPI\plugins\global``
 - ``Audio.tar.gz`` unarchive to => ``~\LabAPI\configs\scp066\Audio``
 - ``Schematics.tar.gz`` unarchive to => ``~\LabAPI\configs\ProjectMER\Schematics``
+- ``dependencies.zip`` unarchive to => ``~\LabAPI\dependencies\global``
 - Install the [``ProjectMER.dll``](https://github.com/Michal78900/ProjectMER/releases/latest) to => ``~\LabAPI\plugins\global``
 
 # Commands
@@ -32,8 +33,9 @@
 - If you want to remove, just simply set the player to a different role.
 
 # Credits
- ![img](https://img.shields.io/github/downloads/MedveMarci/SCP-066/total.svg)
-- The [main plugin](https://github.com/RisottoMan/SCP-066) created by ``RisottoMan``.
+ ![img](https://img.shields.io/github/downloads/MedveMarci/SCP-066/total.svg) <a href="https://github.com/KenleyundLeon/DeltaPatch"><img src="https://image2url.com/images/1759565889245-ff2e02c2-1f19-4f72-bc06-43a3b77fb4bd.png"></a>
+- The [main plugin](https://github.com/RisottoMan/SCP-066) created by ``RisottoMan``
+- LabAPI support by ``MedveMarci``
 - Thanks ``PaЯRoT`` for the creating model and for publishing in KO-FI
 - Thanks to everyone who helped test SCP-066
 <p align="center">
