@@ -4,6 +4,7 @@ using System.Net;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
+using LabApi.Events.CustomHandlers;
 using LabApi.Features;
 using LabApi.Loader.Features.Plugins;
 using RoleAPI;
@@ -14,6 +15,7 @@ namespace Scp066;
 public class Scp066 : Plugin<Config>
 {
     private const bool PreRelease = false;
+    private readonly EventHandler _eventHandler = new();
     public override string Name => "Scp066";
     public override string Description => "Adds SCP-066, the noise maker, as a custom role with unique abilities and features.";
     public override string Author => "RisottoMan, LabApi version: MedveMarci";
@@ -27,8 +29,7 @@ public class Scp066 : Plugin<Config>
         Instance = this;
         Startup.SetupAPI(Name);
         Startup.RegisterCustomRole(Role);
-        LabApi.Events.Handlers.Scp0492Events.StartingConsumingCorpse += EventHandler.OnStartingConsumingCorpse;
-        _ = CheckForUpdatesAsync(Version);
+        CustomHandlersManager.RegisterEventsHandler(_eventHandler);
     }
     
     public override void LoadConfigs()
@@ -41,7 +42,7 @@ public class Scp066 : Plugin<Config>
     {
         Instance = null;
         Startup.UnRegisterCustomRole(Role);
-        LabApi.Events.Handlers.Scp0492Events.StartingConsumingCorpse -= EventHandler.OnStartingConsumingCorpse;
+        CustomHandlersManager.UnregisterEventsHandler(_eventHandler);
     }
     
     internal static async Task CheckForUpdatesAsync(Version currentVersion)
